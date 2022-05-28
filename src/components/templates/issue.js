@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 import React from 'react';
 import Modal from 'react-modal';
+import Search from './searchinput';
 
 const Section = styled.div`
   padding: 16px;
@@ -21,29 +22,6 @@ const Inheader = styled.div`
 `;
 
 const Issueheader = styled.h2``;
-
-const Searchblock = styled.div`
-  padding: 8px 16px;
-  display: flex;
-  width: 100%;
-  .text-field-container {
-    width: 100%;
-  }
-`;
-
-const Searchtext = styled.div`
-  border-radius: 6px;
-  border: 1px solid rgb(225, 228, 232);
-`;
-
-const Searchinput = styled.input`
-  padding: 8px;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 1rem;
-  width: 100%;
-`;
 
 const ActionButtons = styled.div`
   display: flex;
@@ -327,6 +305,7 @@ function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
   }
   
   const openEdit = (val) => {
+    
     setIsOpenEdit(true)
     setVal(val)
     settextedit(val.title)
@@ -380,15 +359,7 @@ function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
         <Action>
           <Inheader>
             <Issueheader>Issue</Issueheader>
-            <Searchblock>
-              <Searchtext className="text-field-container">
-                <Searchinput
-                  type="input"
-                  placeholder="issue名で検索"
-                  onChange={onChangeSearch}
-                />
-              </Searchtext>
-            </Searchblock>
+            <Search />
             <ActionButtons>
               <Newbutton onClick={() => setIsOpen(true)}>New</Newbutton>
               <Deletebutton onClick={() => Deleteissue()}>Delete</Deletebutton>
@@ -515,11 +486,11 @@ function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
             </Modal>
             <tbody>
               {List.map((val,key) =>
-                <Issuetr onClick={() => ((openEdit(val)))} key={key}>
+                <Issuetr key={key}>
                   <td>
                     <Checkbox 
                     id={val.id}
-                    onClick={checkedbox}
+                    onChange={checkedbox}
                     />
                   </td>
                   <td>{val.title}</td>
