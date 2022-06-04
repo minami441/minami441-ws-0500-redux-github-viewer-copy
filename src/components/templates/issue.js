@@ -2,7 +2,11 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 import React from 'react';
 import Modal from 'react-modal';
-import Search from './searchinput';
+import Search from '../molecules/searchblock';
+import ActionButtons from '../molecules/ActionButtons';
+
+const Checkbox = styled.input`
+`;
 
 const Section = styled.div`
   padding: 16px;
@@ -22,50 +26,6 @@ const Inheader = styled.div`
 `;
 
 const Issueheader = styled.h2``;
-
-const ActionButtons = styled.div`
-  display: flex;
-`;
-
-const Newbutton = styled.a`
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 4px 16px;
-  margin: 4px;
-  min-width: 100px;
-  border-radius: 6px;
-  color: white;
-  font-size: 1rem;
-  background: rgb(66, 195, 96);
-  border-bottom: 2px solid rgb(40, 167, 69);
-
-  &:hover{
-    background: rgb(40, 167, 69);
-    border-bottom: 2px solid rgb(32, 132, 55);
-  }
-`;
-
-const Deletebutton = styled.a`
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 4px 16px;
-  margin: 4px;
-  min-width: 100px;
-  border-radius: 6px;
-  color: white;
-  font-size: 1rem;
-  background: rgb(215, 58, 73);
-  border-bottom: 2px solid rgb(175, 28, 42);
-
-  &:hover{
-    background: rgb(175, 28, 42);
-    border-bottom: 2px solid rgb(103, 16, 25);
-  }
-`;
 
 const Lists = styled.div`
   overflow: scroll;
@@ -214,9 +174,6 @@ const Alerttext = styled.p`
   border-radius: 6px;
 `;
 
-const Checkbox = styled.input`
-`;
-
 const Statusarea = styled.div`
   padding: 16px;
 `;
@@ -257,7 +214,7 @@ const customStyles = {
   },
 };
 
-function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
+function Issue({ issue,add_issue,edit_issue,delete_issue }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState('');
@@ -269,18 +226,17 @@ function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
   const [error, setError] = React.useState('');
   const [erroredit, setErroredit] = React.useState('');
   const [check, setcheck] = React.useState([]);
-  const [allcheck,setallcheck] = React.useState(false);
 
   const List = Object.values(issue);
   const Status = ['Open','Close']
   const onSubmit = () => {
     if (!text) {
       setError({message:'タイトル'})
-      return;
+      return
     }
     if (!description) {
       setError({message:'説明'})
-      return;
+      return
     }
 
     add_issue({title:text,description:description})
@@ -325,45 +281,43 @@ function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
   }
 
   const onChangeText = (e) => {
-    setText(e.target.value);
+    setText(e.target.value)
   };
 
   const onChangeDescription = (e) => {
-    setDescription(e.target.value);
+    setDescription(e.target.value)
   };
 
-  const onChangeSearch = (e) => {
-   filter_issue(e.target.value);
-  }
+
 
   const checkedbox = (e) => {
     e.stopPropagation()
-    const { id, checked } = e.target;
-    setcheck([...check, id]);
+    const { id, checked } = e.target
+    setcheck([...check, id])
     if (!checked) {
-      setcheck(check.filter(item => item !== id));
+      setcheck(check.filter(item => item !== id))
     }
   }
 
-  const Deleteissue = () => {
-    delete_issue(check)
-    setcheck([]);
-  }
   const AllChecked = () => {
-    setallcheck(!allcheck)
-
+    if(check.length === List.length){
+      setcheck([])
+    }else{
+      const tmp = List.map(function(val){
+        return val.id.toString()
+      });
+      setcheck(tmp)
+    }
   }
+
   return (
     <Section>
       <Container>
         <Action>
           <Inheader>
             <Issueheader>Issue</Issueheader>
-            <Search />
-            <ActionButtons>
-              <Newbutton onClick={() => setIsOpen(true)}>New</Newbutton>
-              <Deletebutton onClick={() => Deleteissue()}>Delete</Deletebutton>
-            </ActionButtons>
+            <Search/>
+            <ActionButtons />
           </Inheader> 
         </Action>
         <Lists>
@@ -486,11 +440,12 @@ function Issue({ issue,add_issue,filter_issue,edit_issue,delete_issue }) {
             </Modal>
             <tbody>
               {List.map((val,key) =>
-                <Issuetr key={key}>
+                <Issuetr key={key} onClick={() => openEdit(val)}>
                   <td>
                     <Checkbox 
                     id={val.id}
                     onChange={checkedbox}
+                    checked={check.includes(val.id.toString())}
                     />
                   </td>
                   <td>{val.title}</td>
@@ -515,7 +470,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     add_issue: (list) => dispatch({ type: 'add_issue', payload: list }),
-    filter_issue: (greptxt) => dispatch({type: 'filter_issue', payload: greptxt}),
     edit_issue: (edittxt) => dispatch({type: 'edit_issue', payload: edittxt}),
     delete_issue: (list) => dispatch({ type: 'delete_issue', payload: list }),
   };
