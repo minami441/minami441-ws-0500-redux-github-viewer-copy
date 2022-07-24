@@ -1,36 +1,20 @@
 import styled from 'styled-components';
-import Newbutton from '../atoms/newbuton';
-import Deletebutton from '../atoms/deletebutton';
-import { connect } from 'react-redux';
+import Buttons from '../atoms/button';
 import React from 'react';
 
 const ActionButton = styled.div`
     display: flex;
 `;
 
-const ActionButtons = (delete_issue) => {
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-    const Deleteissue = () => {
-
-    }
-
+const ActionButtons = (props) => {
+  
     return(
     <ActionButton>
-        <Newbutton onClick={() => setIsOpen(true)}>New</Newbutton>
-        <Deletebutton onClick={() => Deleteissue()}>Delete</Deletebutton>
+        <Buttons color="white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={props.open} hover_back="rgb(40, 167, 69)" hover_border="2px solid rgb(32, 132, 55)">New</Buttons>
+        <Buttons color="white" background="rgb(215, 58, 73)" borderbottom="2px solid rgb(175, 28, 42)" onClick={props.delete} >Delete</Buttons>
     </ActionButton>
     )
 }
-
-const mapStateToProps = () => {
-    return {};
-  };
   
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      delete_issue: (list) => dispatch({ type: 'delete_issue', payload: list }),
-    };
-  };
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(ActionButtons,);
+  export default ActionButtons;
   

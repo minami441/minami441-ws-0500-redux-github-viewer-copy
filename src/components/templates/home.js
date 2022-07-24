@@ -19,7 +19,7 @@ const IssueTab = styled.li`
     font-size: 1.2rem;
     width: 100%;
     text-align: center;
-    border-radius: ${(props) => (props.isActive ? '' : '6px 6px 0px 0px')};
+    border-radius: 6px 6px 0px 0px;
     border-bottom: ${(props) =>
       props.isActive ? '' : '1px solid rgb(225, 228, 232)'};
     border-top: ${(props) =>
@@ -43,7 +43,7 @@ const PullreqTab = styled.li`
   font-size: 1.2rem;
   width: 100%;
   text-align: center;
-  border-radius: ${(props) => (props.isActive ? '6px 6px 0px 0px' : '')};
+  border-radius: 6px 6px 0px 0px;
   border-bottom: ${(props) =>
     props.isActive ? '1px solid rgb(225, 228, 232)' : ''};
   border-top: ${(props) =>

@@ -2,8 +2,14 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 import React from 'react';
 import Modal from 'react-modal';
-import Search from '../molecules/searchblock';
-import ActionButtons from '../molecules/ActionButtons';
+import Buttons from '../atoms/button';
+import Inheaders from '../organisms/inheader';
+
+import Modalcontentstitleinputtext from '../atoms/titleform';
+import Modallabeltext from '../atoms/titlelabel';
+import Titleblock from '../molecules/titleblock';
+import Descriptionblock from '../molecules/descriptionblock';
+
 
 const Checkbox = styled.input`
 `;
@@ -18,14 +24,6 @@ const Container = styled.div`
 `;
 
 const Action = styled.div``;
-
-const Inheader = styled.div`
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-`;
-
-const Issueheader = styled.h2``;
 
 const Lists = styled.div`
   overflow: scroll;
@@ -67,10 +65,6 @@ const Modallabel = styled.div`
   }
 `;
 
-const Modallabeltext = styled.h2`
-  padding: 0px 8px;
-`;
-
 const Modalcontents = styled.div`
   padding: 32px 0px 16px;
 `;
@@ -89,15 +83,6 @@ const Modalcontentstitleinput = styled.div`
   border: 1px solid rgb(225, 228, 232);
 `;
 
-const Modalcontentstitleinputtext = styled.input`
-  padding: 8px;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 1rem;
-  width: 100%;
-`;
-
 const Modalcontentsdescription = styled.div`
   padding: 16px;
 `;
@@ -112,15 +97,6 @@ const Modalcontentsdescriptiontext = styled.div`
   border: 1px solid rgb(225, 228, 232);
 `;
 
-const Modalcontentsdescriptionyextarea = styled.textarea`
-  padding: 8px;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 1rem;
-  width: 100%;
-`;
-
 const Modalbuttons = styled.div`
   display: flex;
   -webkit-box-align: center;
@@ -128,38 +104,6 @@ const Modalbuttons = styled.div`
   -webkit-box-pack: end;
   justify-content: flex-end;
   padding: 8px;
-`;
-
-const Modalbuttoncreate = styled.a`
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 4px 16px;
-  margin: 4px;
-  min-width: 100px;
-  border-radius: 6px;
-  color: white;
-  font-size: 1rem;
-  background: rgb(66, 195, 96);
-  border-bottom: 2px solid rgb(40, 167, 69);
-
-  &:hover{
-    background: rgb(40, 167, 69);
-    border-bottom: 2px solid rgb(32, 132, 55);
-  }
-`;
-
-const Modalbuttonexit = styled.a`
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 4px 16px;
-  margin: 4px;
-  min-width: 100px;
-  border-radius: 6px;
-  font-size: 1rem;
 `;
 
 const Alert = styled.div`
@@ -229,6 +173,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
 
   const List = Object.values(issue);
   const Status = ['Open','Close']
+
   const onSubmit = () => {
     if (!text) {
       setError({message:'タイトル'})
@@ -288,8 +233,6 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
     setDescription(e.target.value)
   };
 
-
-
   const checkedbox = (e) => {
     e.stopPropagation()
     const { id, checked } = e.target
@@ -314,11 +257,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
     <Section>
       <Container>
         <Action>
-          <Inheader>
-            <Issueheader>Issue</Issueheader>
-            <Search/>
-            <ActionButtons />
-          </Inheader> 
+            <Inheaders open={() => setIsOpen(true)} delete={() => delete_issue(check)} />
         </Action>
         <Lists>
           <Issuetable>
@@ -337,6 +276,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
             <React.Fragment>
               <GlobalStyle />
             </React.Fragment>
+
             <Modal
               isOpen={modalIsOpen}
               style={customStyles}
@@ -359,13 +299,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
                     <Modalcontentsdescriptiontitle>
                       説明
                     </Modalcontentsdescriptiontitle>
-                    <Modalcontentsdescriptiontext>
-                      <Modalcontentsdescriptionyextarea
-                        placeholder="説明を入力してください"
-                        value={description}
-                        onChange={onChangeDescription}
-                      ></Modalcontentsdescriptionyextarea>
-                    </Modalcontentsdescriptiontext>
+                      <Descriptionblock default={vals.description} onChange={e => setdescriptionedit(e.target.value)}/>
                   </Modalcontentsdescription>
                 </Modalcontents>
                 <Alert>
@@ -374,15 +308,16 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
                 }
                 </Alert>
                 <Modalbuttons>
-                  <Modalbuttoncreate onClick={() => onSubmit()}>
+                  <Buttons color="white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={() => onSubmit()}>
                     作成
-                  </Modalbuttoncreate>
-                  <Modalbuttonexit onClick={() => closeModal()}>
+                  </Buttons>
+                  <Buttons onClick={() => closeModal()}>
                     閉じる
-                  </Modalbuttonexit>
+                  </Buttons>
                 </Modalbuttons>
               </Modallabel>
             </Modal>
+
             <Modal
               isOpen={modalIsOpenEdit}
               style={customStyles}
@@ -391,26 +326,14 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
               <Modallabel>
                 <Modallabeltext>Issueを追加</Modallabeltext>
                 <Modalcontents>
-                  <Modalcontentstitle>
-                    <Modalcontentstitlelabel>タイトル</Modalcontentstitlelabel>
-                    <Modalcontentstitleinput>
-                      <Modalcontentstitleinputtext
-                        placeholder="タイトルを入力してください"
-                        defaultValue={vals.title}
-                        onChange={e => settextedit(e.target.value)}
-                      ></Modalcontentstitleinputtext>
-                    </Modalcontentstitleinput>
-                  </Modalcontentstitle>
+                  <Titleblock default={vals.title} placeholder="説明を入力してください"/>
+                  
                   <Modalcontentsdescription>
                     <Modalcontentsdescriptiontitle>
                       説明
                     </Modalcontentsdescriptiontitle>
                     <Modalcontentsdescriptiontext>
-                      <Modalcontentsdescriptionyextarea
-                        placeholder="説明を入力してください"
-                        defaultValue={vals.description}
-                        onChange={e => setdescriptionedit(e.target.value)}
-                      ></Modalcontentsdescriptionyextarea>
+
                     </Modalcontentsdescriptiontext>
                   </Modalcontentsdescription>
                 </Modalcontents>
@@ -418,10 +341,6 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
                   <Statuslabel>
                     ステータス
                   </Statuslabel>
-                  <select defaultValue={vals.status} onChange={e => setstatusedit(e.target.value)}>
-                    <option value="0">Open</option>
-                    <option value="1">Close</option>
-                  </select>
                 </Statusarea>
                 <Alert>
                 {erroredit &&
@@ -429,22 +348,23 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
                 }
                 </Alert>
                 <Modalbuttons>
-                  <Modalbuttoncreate onClick={() => onSubmitEdit()}>
+                  <Buttons color="white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={() => onSubmitEdit()}>
                     更新
-                  </Modalbuttoncreate>
-                  <Modalbuttonexit onClick={() => closeModalEdit()}>
+                  </Buttons>
+                  <Buttons onClick={() => closeModalEdit()}>
                     閉じる
-                  </Modalbuttonexit>
+                  </Buttons>
                 </Modalbuttons>
               </Modallabel>
             </Modal>
+
             <tbody>
               {List.map((val,key) =>
                 <Issuetr key={key} onClick={() => openEdit(val)}>
                   <td>
                     <Checkbox 
                     id={val.id}
-                    onChange={checkedbox}
+                    onClick={checkedbox}
                     checked={check.includes(val.id.toString())}
                     />
                   </td>
