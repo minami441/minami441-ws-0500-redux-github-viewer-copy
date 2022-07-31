@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 import Modal from 'react-modal';
 import Buttons from '../atoms/button';
+import Statusblock from '../molecules/Statusblock';
 import Inheaders from '../organisms/inheader';
-
-import Modalcontentstitleinputtext from '../atoms/titleform';
 import Modallabeltext from '../atoms/titlelabel';
-import Titleblock from '../molecules/titleblock';
+import Titleblock from '../molecules/Titleblock';
 import Descriptionblock from '../molecules/descriptionblock';
+import Alert from '../molecules/Alertblock';
 
 
 const Checkbox = styled.input`
@@ -78,18 +78,10 @@ const Modalcontentstitlelabel = styled.label`
   padding: 8px 0px;
 `;
 
+
 const Modalcontentstitleinput = styled.div`
   border-radius: 6px;
   border: 1px solid rgb(225, 228, 232);
-`;
-
-const Modalcontentsdescription = styled.div`
-  padding: 16px;
-`;
-
-const Modalcontentsdescriptiontitle = styled.label`
-  display: block;
-  padding: 8px 0px;
 `;
 
 const Modalcontentsdescriptiontext = styled.div`
@@ -104,27 +96,6 @@ const Modalbuttons = styled.div`
   -webkit-box-pack: end;
   justify-content: flex-end;
   padding: 8px;
-`;
-
-const Alert = styled.div`
-  padding: 16px;
-  min-height: 100px;
-`;
-
-const Alerttext = styled.p`
-  color: rgb(215, 58, 73);
-  background: rgba(215, 58, 73, 0.35);
-  padding: 8px;
-  border-radius: 6px;
-`;
-
-const Statusarea = styled.div`
-  padding: 16px;
-`;
-
-const Statuslabel = styled.label`
-  display: block;
-  padding: 8px 0px;
 `;
 
 Checkbox.defaultProps = { 
@@ -164,9 +135,9 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
   const [text, setText] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [vals, setVal] = React.useState('');
-  const [textedit, settextedit] = React.useState('');
-  const [descriptionedit, setdescriptionedit] = React.useState('');
-  const [statusedit, setstatusedit] = React.useState('');
+  const [textedit, setTextEdit] = React.useState('');
+  const [descriptionedit, setDescriptionEdit] = React.useState('');
+  const [statusedit, setStatusEdit] = React.useState('');
   const [error, setError] = React.useState('');
   const [erroredit, setErroredit] = React.useState('');
   const [check, setcheck] = React.useState([]);
@@ -197,6 +168,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
       return;
     }
     if(!descriptionedit){
+      
       setErroredit({message:'説明'})
       return;
     }
@@ -206,17 +178,17 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
   }
   
   const openEdit = (val) => {
-    
     setIsOpenEdit(true)
     setVal(val)
-    settextedit(val.title)
-    setdescriptionedit(val.description)
-    setstatusedit(val.status)
+    setTextEdit(val.title)
+    setDescriptionEdit(val.description)
+    setStatusEdit(val.status)
   }
 
   const closeModal = () => {
     setText('')
     setDescription('')
+    setError('')
     setIsOpen(false)
   }
 
@@ -224,14 +196,6 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
     setErroredit('')
     setIsOpenEdit(false)
   }
-
-  const onChangeText = (e) => {
-    setText(e.target.value)
-  };
-
-  const onChangeDescription = (e) => {
-    setDescription(e.target.value)
-  };
 
   const checkedbox = (e) => {
     e.stopPropagation()
@@ -285,33 +249,21 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
               <Modallabel>
                 <Modallabeltext>Issueを追加</Modallabeltext>
                 <Modalcontents>
-                  <Modalcontentstitle>
-                    <Modalcontentstitlelabel>タイトル</Modalcontentstitlelabel>
-                    <Modalcontentstitleinput>
-                      <Modalcontentstitleinputtext
-                        placeholder="タイトルを入力してください"
-                        value={text}
-                        onChange={onChangeText}
-                      ></Modalcontentstitleinputtext>
-                    </Modalcontentstitleinput>
-                  </Modalcontentstitle>
-                  <Modalcontentsdescription>
-                    <Modalcontentsdescriptiontitle>
-                      説明
-                    </Modalcontentsdescriptiontitle>
-                      <Descriptionblock default={vals.description} onChange={e => setdescriptionedit(e.target.value)}/>
-                  </Modalcontentsdescription>
+                  <Titleblock 
+                  onChange={e => setText(e.target.value)}
+                  placeholder="タイトルを入力してください"
+                  />
+                  <Descriptionblock 
+                  onChange={e => setDescription(e.target.value)}
+                  placeholder="説明を入力してください"
+                  />
                 </Modalcontents>
-                <Alert>
-                {error &&
-                    <Alerttext>{error.message}を入力してください</Alerttext>
-                }
-                </Alert>
+                <Alert error={error} />
                 <Modalbuttons>
                   <Buttons color="white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={() => onSubmit()}>
                     作成
                   </Buttons>
-                  <Buttons onClick={() => closeModal()}>
+                  <Buttons onClick={closeModal}>
                     閉じる
                   </Buttons>
                 </Modalbuttons>
@@ -326,29 +278,28 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
               <Modallabel>
                 <Modallabeltext>Issueを追加</Modallabeltext>
                 <Modalcontents>
-                  <Titleblock default={vals.title} placeholder="説明を入力してください"/>
-                  
-                  <Modalcontentsdescription>
-                    <Modalcontentsdescriptiontitle>
-                      説明
-                    </Modalcontentsdescriptiontitle>
-                    <Modalcontentsdescriptiontext>
-
-                    </Modalcontentsdescriptiontext>
-                  </Modalcontentsdescription>
+                  <Titleblock 
+                  default={vals.title} 
+                  onChange={e => setTextEdit(e.target.value)}
+                  placeholder="タイトルを入力してください"
+                  />
+                  <Descriptionblock 
+                  default={vals.description} 
+                  onChange={e => setDescriptionEdit(e.target.value)}
+                  placeholder="説明を入力してください"
+                  />
                 </Modalcontents>
-                <Statusarea>
-                  <Statuslabel>
-                    ステータス
-                  </Statuslabel>
-                </Statusarea>
-                <Alert>
-                {erroredit &&
-                    <Alerttext>{erroredit.message}を入力してください</Alerttext>
-                }
-                </Alert>
+                <Statusblock 
+                onChange={e => setStatusEdit(e.target.value)}
+                />
                 <Modalbuttons>
-                  <Buttons color="white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={() => onSubmitEdit()}>
+                <Alert error={error} />
+                  <Buttons 
+                  color="white" 
+                  background="rgb(66, 195, 96)" 
+                  borderbottom="2px solid rgb(40, 167, 69)" 
+                  onClick={() => onSubmitEdit()}
+                  >
                     更新
                   </Buttons>
                   <Buttons onClick={() => closeModalEdit()}>

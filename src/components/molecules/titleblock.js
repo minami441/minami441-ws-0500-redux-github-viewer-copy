@@ -21,7 +21,11 @@ const Titleblock = (props) => {
     <Modalcontentstitle>
         <Modalcontentstitlelabel>タイトル</Modalcontentstitlelabel>
         <Modalcontentstitlearea>
-            <Modalcontentstitleinputtext defaultValue={props.default}/>
+            <Modalcontentstitleinputtext 
+            placeholder = {props.placeholder}
+            defaultValue = {props.default}
+            onChange = {props.onChange}
+            />
         </Modalcontentstitlearea>
     </Modalcontentstitle>
     )
