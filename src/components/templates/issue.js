@@ -5,14 +5,12 @@ import Modal from 'react-modal';
 import Buttons from '../atoms/button';
 import Statusblock from '../molecules/Statusblock';
 import Inheaders from '../organisms/inheader';
+import Issuetr from '../organisms/Issuetr';
 import Modallabeltext from '../atoms/titlelabel';
 import Titleblock from '../molecules/Titleblock';
 import Descriptionblock from '../molecules/descriptionblock';
 import Alert from '../molecules/Alertblock';
 
-
-const Checkbox = styled.input`
-`;
 
 const Section = styled.div`
   padding: 16px;
@@ -47,13 +45,6 @@ const Issuetable = styled.table`
   }
 `;
 
-const Issuetr = styled.tr`
-  cursor: pointer;
-  &:hover {
-    background: rgba(198, 218, 230, 0.25);
-  }
-  `;
-
 const Modallabel = styled.div`
   max-width: 598px;
   margin: auto;
@@ -69,26 +60,6 @@ const Modalcontents = styled.div`
   padding: 32px 0px 16px;
 `;
 
-const Modalcontentstitle = styled.div`
-  padding: 16px;
-`;
-
-const Modalcontentstitlelabel = styled.label`
-  display: block;
-  padding: 8px 0px;
-`;
-
-
-const Modalcontentstitleinput = styled.div`
-  border-radius: 6px;
-  border: 1px solid rgb(225, 228, 232);
-`;
-
-const Modalcontentsdescriptiontext = styled.div`
-  border-radius: 6px;
-  border: 1px solid rgb(225, 228, 232);
-`;
-
 const Modalbuttons = styled.div`
   display: flex;
   -webkit-box-align: center;
@@ -97,10 +68,6 @@ const Modalbuttons = styled.div`
   justify-content: flex-end;
   padding: 8px;
 `;
-
-Checkbox.defaultProps = { 
-  type: 'checkbox'
-};
 
 const GlobalStyle = createGlobalStyle`
   @media (max-width: 576px) {
@@ -129,7 +96,7 @@ const customStyles = {
   },
 };
 
-function Issue({ issue,add_issue,edit_issue,delete_issue }) {
+function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState('');
@@ -139,11 +106,9 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
   const [descriptionedit, setDescriptionEdit] = React.useState('');
   const [statusedit, setStatusEdit] = React.useState('');
   const [error, setError] = React.useState('');
-  const [erroredit, setErroredit] = React.useState('');
   const [check, setcheck] = React.useState([]);
 
   const List = Object.values(issue);
-  const Status = ['Open','Close']
 
   const onSubmit = () => {
     if (!text) {
@@ -154,7 +119,6 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
       setError({message:'説明'})
       return
     }
-
     add_issue({title:text,description:description})
     setError('');
     setText('');
@@ -164,16 +128,15 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
 
   const onSubmitEdit = () => {
     if(!textedit){
-      setErroredit({message:'タイトル'})
+      setError({message:'タイトル'})
       return;
     }
     if(!descriptionedit){
-      
-      setErroredit({message:'説明'})
+      setError({message:'説明'})
       return;
     }
     edit_issue({id:vals.id,textedit:textedit,descriptionedit:descriptionedit,statusedit:statusedit})
-    setErroredit()
+    setError('')
     setIsOpenEdit(false)
   }
   
@@ -193,7 +156,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
   }
 
   const closeModalEdit = () => {
-    setErroredit('')
+    setError('')
     setIsOpenEdit(false)
   }
 
@@ -221,7 +184,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
     <Section>
       <Container>
         <Action>
-            <Inheaders open={() => setIsOpen(true)} delete={() => delete_issue(check)} />
+            <Inheaders open={() => setIsOpen(true)} delete={() => delete_issue(check)} filter={(e) => filter_issue(e.target.value)}/>
         </Action>
         <Lists>
           <Issuetable>
@@ -249,11 +212,11 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
               <Modallabel>
                 <Modallabeltext>Issueを追加</Modallabeltext>
                 <Modalcontents>
-                  <Titleblock 
+                  <Titleblock
                   onChange={e => setText(e.target.value)}
                   placeholder="タイトルを入力してください"
                   />
-                  <Descriptionblock 
+                  <Descriptionblock
                   onChange={e => setDescription(e.target.value)}
                   placeholder="説明を入力してください"
                   />
@@ -278,22 +241,23 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
               <Modallabel>
                 <Modallabeltext>Issueを追加</Modallabeltext>
                 <Modalcontents>
-                  <Titleblock 
-                  default={vals.title} 
+                  <Titleblock
+                  default={vals.title}
                   onChange={e => setTextEdit(e.target.value)}
                   placeholder="タイトルを入力してください"
                   />
-                  <Descriptionblock 
-                  default={vals.description} 
+                  <Descriptionblock
+                  default={vals.description}
                   onChange={e => setDescriptionEdit(e.target.value)}
                   placeholder="説明を入力してください"
                   />
-                </Modalcontents>
-                <Statusblock 
+                <Statusblock
                 onChange={e => setStatusEdit(e.target.value)}
+                default={vals.status}
                 />
-                <Modalbuttons>
+                </Modalcontents>
                 <Alert error={error} />
+                <Modalbuttons>
                   <Buttons 
                   color="white" 
                   background="rgb(66, 195, 96)" 
@@ -308,23 +272,15 @@ function Issue({ issue,add_issue,edit_issue,delete_issue }) {
                 </Modalbuttons>
               </Modallabel>
             </Modal>
-
             <tbody>
               {List.map((val,key) =>
-                <Issuetr key={key} onClick={() => openEdit(val)}>
-                  <td>
-                    <Checkbox 
-                    id={val.id}
-                    onClick={checkedbox}
-                    checked={check.includes(val.id.toString())}
-                    />
-                  </td>
-                  <td>{val.title}</td>
-                  <td>{Status[val.status]}</td>
-                  <td>{val.ctuser}</td>
-                  <td>{val.ctdate}</td>
-                  <td>{val.update}</td>
-                </Issuetr>
+                <Issuetr
+                key={key}
+                val={val}
+                openEdit={() => openEdit(val)}
+                checkedbox={checkedbox}
+                checked={check.includes(val.id.toString())}
+                />
               )}
             </tbody>
           </Issuetable>
@@ -341,6 +297,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     add_issue: (list) => dispatch({ type: 'add_issue', payload: list }),
+    filter_issue: (filtertxt) => dispatch({type: 'filter_issue', payload: filtertxt}),
     edit_issue: (edittxt) => dispatch({type: 'edit_issue', payload: edittxt}),
     delete_issue: (list) => dispatch({ type: 'delete_issue', payload: list }),
   };

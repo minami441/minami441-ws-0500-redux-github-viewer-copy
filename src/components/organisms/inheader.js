@@ -36,7 +36,7 @@ return (
         <Issueheader>Issue</Issueheader>
           <Searcharea>
             <Searchtext className='text-field-container'>
-              <Search type="input" placeholder="Issue名で検索"/>
+              <Search onChange={props.filter} type="input" placeholder="Issue名で検索"/>
             </Searchtext>
           </Searcharea>
           <ActionButton>

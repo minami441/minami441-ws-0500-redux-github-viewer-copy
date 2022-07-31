@@ -4,7 +4,7 @@ const Selectstatus = (props) => {
 
   return (
     <select 
-    defaultValue={props.vals}
+    value={props.default}
     onChange={props.onChange}
     >
       <option value="0">Open</option>
