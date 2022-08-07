@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import Searchinput from '../atoms/searchinput';
+import Searchinput from '../atoms/Searchinput';
 
 const Searchblock = styled.div`
   padding: 8px 16px;

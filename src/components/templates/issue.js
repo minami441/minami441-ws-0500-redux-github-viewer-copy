@@ -107,6 +107,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
   const [statusedit, setStatusEdit] = React.useState('');
   const [error, setError] = React.useState('');
   const [check, setcheck] = React.useState([]);
+  const [filtertxt, setFilter] = React.useState();
 
   const List = Object.values(issue);
 
@@ -120,11 +121,19 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
       return
     }
     add_issue({title:text,description:description})
+    if(filtertxt){
+     filter_issue(filtertxt)
+    }
     setError('');
     setText('');
     setDescription('');
     setIsOpen(false)
   };
+
+  const filter = (filter) => {
+    setFilter(filter)
+    filter_issue(filter)
+  }
 
   const onSubmitEdit = () => {
     if(!textedit){
@@ -135,7 +144,11 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
       setError({message:'説明'})
       return;
     }
+
     edit_issue({id:vals.id,textedit:textedit,descriptionedit:descriptionedit,statusedit:statusedit})
+    if(filtertxt){
+      filter_issue(filtertxt)
+    }
     setError('')
     setIsOpenEdit(false)
   }
@@ -184,7 +197,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
     <Section>
       <Container>
         <Action>
-            <Inheaders open={() => setIsOpen(true)} delete={() => delete_issue(check)} filter={(e) => filter_issue(e.target.value)}/>
+            <Inheaders open={() => setIsOpen(true)} delete={() => delete_issue(check)} filter={(e) => filter(e.target.value)} />
         </Action>
         <Lists>
           <Issuetable>
@@ -213,20 +226,20 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
                 <Modallabeltext>Issueを追加</Modallabeltext>
                 <Modalcontents>
                   <Titleblock
-                  onChange={e => setText(e.target.value)}
-                  placeholder="タイトルを入力してください"
+                  onChange = {e => setText(e.target.value)}
+                  placeholder = "タイトルを入力してください"
                   />
                   <Descriptionblock
-                  onChange={e => setDescription(e.target.value)}
-                  placeholder="説明を入力してください"
+                  onChange = {e => setDescription(e.target.value)}
+                  placeholder = "説明を入力してください"
                   />
                 </Modalcontents>
-                <Alert error={error} />
+                <Alert error = {error} />
                 <Modalbuttons>
-                  <Buttons color="white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={() => onSubmit()}>
+                  <Buttons color = "white" background="rgb(66, 195, 96)" borderbottom="2px solid rgb(40, 167, 69)" onClick={() => onSubmit()}>
                     作成
                   </Buttons>
-                  <Buttons onClick={closeModal}>
+                  <Buttons onClick = {closeModal}>
                     閉じる
                   </Buttons>
                 </Modalbuttons>
@@ -282,6 +295,9 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
                 checked={check.includes(val.id.toString())}
                 />
               )}
+              {!List[0] &&
+                <td colspan="6">データがありません</td>
+              }
             </tbody>
           </Issuetable>
         </Lists>

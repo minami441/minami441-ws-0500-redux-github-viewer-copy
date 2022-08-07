@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import Buttons from '../atoms/button';
-import Search from '../atoms/searchinput';
+import Search from '../atoms/Searchinput';
 
 const Inheader = styled.div`
   display: flex;

@@ -17,7 +17,7 @@ function getdate(){
   return MM + "-" + DD + "-" + YYYY;
 }
 
-const initialData = {
+let initialData = {
      1:{
       id: 1,
       title: 'A bug in Top Page',
@@ -57,28 +57,26 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'add_issue':
       const { title, description } = action.payload || {}
-      newState.index++
-      newState.data[newState.index] = { id: newState.index, title: title,description:description, status: 0, ctuser: user.name, ctdate: getdate(), update: getdate()};
-      return newState;
+      initialState.index++
+      initialState.data[initialState.index] = { id: initialState.index, title: title,description:description, status: 0, ctuser: user.name, ctdate: getdate(), update: getdate()};
+      return initialState;
     case 'filter_issue':
       const greptxt = action.payload
       newState.data = Object.values(initialData).filter( function( value ) {
-      return value.title.includes(greptxt)
+        return value.title.includes(greptxt)
       })
       return newState;
     case 'edit_issue':
       const { id,textedit, descriptionedit,statusedit } = action.payload
-      newState.data[id].title = textedit
-      newState.data[id].description = descriptionedit
-      newState.data[id].status = statusedit
-      return newState
+      initialState.data[id].title = textedit
+      initialState.data[id].description = descriptionedit
+      initialState.data[id].status = statusedit
+      return initialState
     case 'delete_issue':
       const delete_id = action.payload
-
-       newState.data = Object.values(newState.data).filter(function(value) {
-          return delete_id.indexOf(String(value.id))===-1
+      newState.data = Object.values(newState.data).filter(function(value) {
+        return delete_id.indexOf(String(value.id)) === -1
       });
-
       return newState
     default:
     return state;
