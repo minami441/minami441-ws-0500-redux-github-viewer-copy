@@ -1,12 +1,12 @@
 import React from 'react';
-import Modalcontentsdescriptionyextarea from '../atoms/description';
+import Modaldescriptionyextarea from '../atoms/Description';
 import styled from 'styled-components';
 
-const Modalcontentsdescription = styled.div`
+const Modaldescription = styled.div`
   padding: 16px;
 `;
 
-const Modalcontentsdescriptiontitle = styled.label`
+const Modaldescriptiontitle = styled.label`
   display: block;
   padding: 8px 0px;
 `;
@@ -20,17 +20,17 @@ const Descriptionborder = styled.div`
 const Descriptionblock = (props) => {
 
     return(
-        <Modalcontentsdescription>
-            <Modalcontentsdescriptiontitle>説明</Modalcontentsdescriptiontitle>
+        <Modaldescription>
+            <Modaldescriptiontitle>説明</Modaldescriptiontitle>
             <Descriptionborder>
-                <Modalcontentsdescriptionyextarea
+                <Modaldescriptionyextarea
                 placeholder = {props.placeholder}
                 defaultValue = {props.default}
                 onChange = {props.onChange}
                 >
-                </Modalcontentsdescriptionyextarea>
+                </Modaldescriptionyextarea>
             </Descriptionborder>
-        </Modalcontentsdescription>
+        </Modaldescription>
     )
 }
 

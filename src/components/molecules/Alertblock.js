@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Alerttext from '../atoms/alerttext.js';
+import Alerttext from '../atoms/Alerttext.js';
 import React from 'react';
 
 const Alertarea = styled.div`

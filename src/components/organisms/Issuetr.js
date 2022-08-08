@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import Checkbox from '../atoms/checkbox';
+import Checkbox from '../atoms/Checkbox';
 
 const Issuetable = styled.tr`
   cursor: pointer;

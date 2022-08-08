@@ -46,7 +46,7 @@ const Profileuser = styled.div``;
 const Profilemail = styled.div``;
 
 function Profile(user) {
-  const list = Object.values(user)[0]
+  const List = Object.values(user)[0]
   return (
     <Profiler store={user}>
       <Profiletitle>Profile</Profiletitle>
@@ -65,11 +65,11 @@ function Profile(user) {
         <ProfileText>
           <Profileuser>
             <Profilelabel>ユーザー名</Profilelabel>
-            <Profilep>{list.name}</Profilep>
+            <Profilep>{List.name}</Profilep>
           </Profileuser>
           <Profilemail>
             <Profilelabel>メールアドレス</Profilelabel>
-            <Profilep>{list.mail}</Profilep>
+            <Profilep>{List.mail}</Profilep>
           </Profilemail>
         </ProfileText>
       </Profilecontents>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import Buttons from '../atoms/button';
+import Buttons from '../atoms/Button';
 import Search from '../atoms/Searchinput';
 
 const Inheader = styled.div`

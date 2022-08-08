@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Buttons from '../atoms/button';
+import Buttons from '../atoms/Button';
 import React from 'react';
 
 const ActionButton = styled.div`

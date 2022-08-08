@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Modalcontentstitleinputtext= styled.input`
+const Modaltitleinput= styled.input`
 padding: 8px;
 border: none;
 outline: none;
@@ -9,4 +9,4 @@ font-size: 1rem;
 width: 100%;
 `;
 
-export default Modalcontentstitleinputtext
+export default Modaltitleinput

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
-import Issue from './issue';
-import Pullrequest from './pullrequest';
+import Issue from './Issue';
+import Pullrequest from './Pullrequest';
 
 const Container = styled.div``;
 

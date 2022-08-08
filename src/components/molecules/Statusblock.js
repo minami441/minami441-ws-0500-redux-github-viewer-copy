@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import Selectstatus from '../atoms/selectstatus';
+import Selectstatus from '../atoms/Selectstatus';
 
 const Statusarea = styled.div`
 padding: 16px;

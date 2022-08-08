@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import React, { useState } from 'react';
-import Home from './components/templates/home';
-import Issue from './components/templates/issue';
-import Profile from './components/templates/profile';
-import Pullrequest from './components/templates/pullrequest';
+import Home from './components/templates/Home';
+import Issue from './components/templates/Issue';
+import Profile from './components/templates/Profile';
+import Pullrequest from './components/templates/Pullrequest';
 
 const Header = styled.div`
   display: flex;

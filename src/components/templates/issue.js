@@ -2,13 +2,13 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 import React from 'react';
 import Modal from 'react-modal';
-import Buttons from '../atoms/button';
+import Buttons from '../atoms/Button';
 import Statusblock from '../molecules/Statusblock';
-import Inheaders from '../organisms/inheader';
+import Inheaders from '../organisms/Inheader';
 import Issuetr from '../organisms/Issuetr';
-import Modallabeltext from '../atoms/titlelabel';
+import Modallabeltext from '../atoms/Titlelabel';
 import Titleblock from '../molecules/Titleblock';
-import Descriptionblock from '../molecules/descriptionblock';
+import Descriptionblock from '../molecules/Descriptionblock';
 import Alert from '../molecules/Alertblock';
 
 
@@ -106,7 +106,7 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
   const [descriptionedit, setDescriptionEdit] = React.useState('');
   const [statusedit, setStatusEdit] = React.useState('');
   const [error, setError] = React.useState('');
-  const [check, setcheck] = React.useState([]);
+  const [check, setCheck] = React.useState([]);
   const [filtertxt, setFilter] = React.useState();
 
   const List = Object.values(issue);
@@ -176,20 +176,20 @@ function Issue({ issue,add_issue,edit_issue,delete_issue,filter_issue }) {
   const checkedbox = (e) => {
     e.stopPropagation()
     const { id, checked } = e.target
-    setcheck([...check, id])
+    setCheck([...check, id])
     if (!checked) {
-      setcheck(check.filter(item => item !== id))
+      setCheck(check.filter(item => item !== id))
     }
   }
 
   const AllChecked = () => {
     if(check.length === List.length){
-      setcheck([])
+      setCheck([])
     }else{
       const tmp = List.map(function(val){
         return val.id.toString()
       });
-      setcheck(tmp)
+      setCheck(tmp)
     }
   }
 
