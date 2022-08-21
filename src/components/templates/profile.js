@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import user from '../user';
+import styled from "styled-components";
+import { connect } from "react-redux";
+import user from "../User";
 
 const Profiler = styled.div`
   padding: 16px;
@@ -46,7 +46,7 @@ const Profileuser = styled.div``;
 const Profilemail = styled.div``;
 
 function Profile(user) {
-  const List = Object.values(user)[0]
+  const List = Object.values(user)[0];
   return (
     <Profiler store={user}>
       <Profiletitle>Profile</Profiletitle>

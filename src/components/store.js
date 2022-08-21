@@ -1,16 +1,16 @@
-import { createStore } from 'redux';
-import user from './user.js';
+import { createStore } from "redux";
+import user from "./User.js";
 
-function getdate(){
+function getdate() {
   const date = new Date();
   const YYYY = date.getFullYear();
-  var MM = date.getMonth()+1;
+  var MM = date.getMonth() + 1;
   var DD = date.getDate();
-  
-  if(MM <10){
+
+  if (MM < 10) {
     MM = "0" + MM;
   }
-  if(DD < 10){
+  if (DD < 10) {
     DD = "0" + DD;
   }
 
@@ -18,68 +18,77 @@ function getdate(){
 }
 
 let initialData = {
-     1:{
-      id: 1,
-      title: 'A bug in Top Page',
-      status: 0,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ctuser: '',
-      ctdate: getdate(),
-      update: getdate(),
-    },
-    2:{
-      id: 2,
-      title: 'A problem of performance in Top Page',
-      status: 0,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ctuser: '',
-      ctdate: getdate(),
-      update: getdate(),
-    },
-    3:{
-      id: 3,
-      title: 'fix layout',
-      status: 0,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ctuser: '',
-      ctdate: getdate(),
-      update: getdate(),
-  }
+  1: {
+    id: 1,
+    title: "A bug in Top Page",
+    status: 0,
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    ctuser: "",
+    ctdate: getdate(),
+    update: getdate(),
+  },
+  2: {
+    id: 2,
+    title: "A problem of performance in Top Page",
+    status: 0,
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    ctuser: "",
+    ctdate: getdate(),
+    update: getdate(),
+  },
+  3: {
+    id: 3,
+    title: "fix layout",
+    status: 0,
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    ctuser: "",
+    ctdate: getdate(),
+    update: getdate(),
+  },
 };
 
-const initialState = {
+initialData = {
   index: Object.values(initialData).length,
-  data: initialData
-}
+  data: initialData,
+};
 
-const reducer = (state = initialState, action) => {
-  let newState = {...state}
+const reducer = (state = initialData, action) => {
+  let newState = {
+    data: "",
+  };
+  const index = initialData.index + 1;
   switch (action.type) {
-    case 'add_issue':
-      const { title, description } = action.payload || {}
-      initialState.index++
-      initialState.data[initialState.index] = { id: initialState.index, title: title,description:description, status: 0, ctuser: user.name, ctdate: getdate(), update: getdate()};
-      return initialState;
-    case 'filter_issue':
-      const greptxt = action.payload
-      newState.data = Object.values(initialData).filter( function( value ) {
-        return value.title.includes(greptxt)
-      })
-      return newState;
-    case 'edit_issue':
-      const { id,textedit, descriptionedit,statusedit } = action.payload
-      initialState.data[id].title = textedit
-      initialState.data[id].description = descriptionedit
-      initialState.data[id].status = statusedit
-      return initialState
-    case 'delete_issue':
-      const delete_id = action.payload
-      newState.data = Object.values(newState.data).filter(function(value) {
-        return delete_id.indexOf(String(value.id)) === -1
+    case "add_issue":
+      const { title, description } = action.payload || {};
+      initialData.data[index] = {
+        id: index,
+        title: title,
+        description: description,
+        status: 0,
+        ctuser: user.name,
+        ctdate: getdate(),
+        update: getdate(),
+      };
+      initialData.index++;
+      return initialData;
+    case "filter_issue":
+      const greptxt = action.payload;
+      newState.data = Object.values(initialData.data).filter(function (value) {
+        return value.title.includes(greptxt);
       });
-      return newState
+      return newState;
+    case "edit_issue":
+      const { id, textedit, descriptionedit, statusedit } = action.payload;
+      initialData.data[id].title = textedit;
+      initialData.data[id].description = descriptionedit;
+      initialData.data[id].status = statusedit;
+      return initialData;
+    case "delete_issue":
+      const delete_id = action.payload;
+      delete_id.forEach((e) => delete initialData.data[e]);
+      return initialData;
     default:
-    return state;
+      return state;
   }
 };
 

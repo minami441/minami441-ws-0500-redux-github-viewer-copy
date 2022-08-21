@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import React, { useState } from 'react';
-import Home from './components/templates/Home';
-import Issue from './components/templates/Issue';
-import Profile from './components/templates/Profile';
-import Pullrequest from './components/templates/Pullrequest';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import styled from "styled-components";
+import React, { useState } from "react";
+import Home from "./components/templates/Home";
+import Issue from "./components/templates/Issue";
+import Profile from "./components/templates/Profile";
+import Pullrequest from "./components/templates/PullRequest";
 
 const Header = styled.div`
   display: flex;
@@ -86,12 +86,12 @@ function App() {
 
   function closeModal() {
     setIsOpen(false);
-    document.removeEventListener('click', closeModal);
+    document.removeEventListener("click", closeModal);
   }
 
   function changeModal(event) {
     setIsOpen(!isOpen);
-    document.addEventListener('click', closeModal);
+    document.addEventListener("click", closeModal);
     event.stopPropagation();
   }
   return (

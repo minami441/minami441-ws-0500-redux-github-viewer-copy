@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import React, { useState } from 'react';
-import Issue from './Issue';
-import Pullrequest from './Pullrequest';
+import styled from "styled-components";
+import React, { useState } from "react";
+import Issue from "./Issue";
+import Pullrequest from "./PullRequest";
 
 const Container = styled.div``;
 
@@ -21,13 +21,13 @@ const IssueTab = styled.li`
     text-align: center;
     border-radius: 6px 6px 0px 0px;
     border-bottom: ${(props) =>
-      props.isActive ? '' : '1px solid rgb(225, 228, 232)'};
+      props.isActive ? "" : "1px solid rgb(225, 228, 232)"};
     border-top: ${(props) =>
-      props.isActive ? '1px solid rgb(225, 228, 232)' : ''};
+      props.isActive ? "1px solid rgb(225, 228, 232)" : ""};
     border-right: ${(props) =>
-      props.isActive ? '1px solid rgb(225, 228, 232)' : ''};
+      props.isActive ? "1px solid rgb(225, 228, 232)" : ""};
     border-left: ${(props) =>
-      props.isActive ? '1px solid rgb(225, 228, 232)' : ''};
+      props.isActive ? "1px solid rgb(225, 228, 232)" : ""};
 
     span {
       cursor: pointer;
@@ -45,13 +45,13 @@ const PullreqTab = styled.li`
   text-align: center;
   border-radius: 6px 6px 0px 0px;
   border-bottom: ${(props) =>
-    props.isActive ? '1px solid rgb(225, 228, 232)' : ''};
+    props.isActive ? "1px solid rgb(225, 228, 232)" : ""};
   border-top: ${(props) =>
-    props.isActive ? '' : '1px solid rgb(225, 228, 232)'};
+    props.isActive ? "" : "1px solid rgb(225, 228, 232)"};
   border-right: ${(props) =>
-    props.isActive ? '' : '1px solid rgb(225, 228, 232)'};
+    props.isActive ? "" : "1px solid rgb(225, 228, 232)"};
   border-left: ${(props) =>
-    props.isActive ? '' : '1px solid rgb(225, 228, 232)'};
+    props.isActive ? "" : "1px solid rgb(225, 228, 232)"};
 
   span {
     cursor: pointer;

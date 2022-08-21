@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import React from 'react';
-import Searchinput from '../atoms/Searchinput';
+import styled from "styled-components";
+import React from "react";
+import Searchinput from "../atoms/Input";
 
 const Searchblock = styled.div`
   padding: 8px 16px;
@@ -16,16 +16,18 @@ const Searchtext = styled.div`
   border: 1px solid rgb(225, 228, 232);
 `;
 
-const Search = () =>{
-
+const Search = (props) => {
   return (
     <Searchblock>
       <Searchtext className="text-field-container">
-        <Searchinput type="input" placeholder="issue名で検索" />
+        <Searchinput
+          type={props.type}
+          placeholder={props.placeholder}
+          onChange={props.filter}
+        />
       </Searchtext>
     </Searchblock>
   );
-
 };
 
 export default Search;
