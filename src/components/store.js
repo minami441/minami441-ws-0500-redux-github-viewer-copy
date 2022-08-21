@@ -86,7 +86,8 @@ const reducer = (state = initialData, action) => {
     case "delete_issue":
       const delete_id = action.payload;
       delete_id.forEach((e) => delete initialData.data[e]);
-      return initialData;
+      newState.data = Object.values(initialData.data);
+      return newState;
     default:
       return state;
   }
