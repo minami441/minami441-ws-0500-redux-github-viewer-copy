@@ -197,6 +197,17 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
     }
   };
 
+  const StatusOptions = [
+    {
+      label: "Open",
+      value: "0",
+    },
+    {
+      label: "Close",
+      value: "1",
+    },
+  ];
+
   return (
     <Section>
       <Container>
@@ -228,6 +239,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
             <Modal
               isOpen={modalIsOpen}
               style={customStyles}
+              ariaHideApp={false}
               contentLabel="Example Modal"
             >
               <Modallabel>
@@ -258,6 +270,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
             <Modal
               isOpen={modalIsOpenEdit}
               style={customStyles}
+              ariaHideApp={false}
               contentLabel="Example Modal"
             >
               <Modallabel>
@@ -276,8 +289,10 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                     placeholder="説明を入力してください"
                   />
                   <StatusBlock
+                    label="ステータス"
                     onChange={(e) => setStatusEdit(e.target.value)}
                     default={vals.status}
+                    options={StatusOptions}
                   />
                 </Modalcontents>
                 <Alert error={error} />
