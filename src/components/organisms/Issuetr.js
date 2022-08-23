@@ -10,7 +10,7 @@ const Issuetable = styled.tr`
 `;
 
 const Status = ["Open", "Close"];
-
+const dummy = () => {};
 const Issuetr = (props) => {
   return (
     <Issuetable onClick={props.openEdit}>
@@ -19,6 +19,7 @@ const Issuetr = (props) => {
           id={props.val.id}
           onClick={props.checkedbox}
           checked={props.checked}
+          onChange={dummy}
         />
       </td>
       <td>{props.val.title}</td>
