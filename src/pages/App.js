@@ -98,7 +98,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Header>
-          <Link to="/">
+          <Link to="minami441-ws-0500-redux-github-viewer/">
             <Gihtubviewer>Github Viewer</Gihtubviewer>
           </Link>
           <Ulist>
@@ -138,7 +138,11 @@ function App() {
         </Header>
         <Main>
           <Routes>
-            <Route path="/" index element={<Home />} />
+            <Route
+              path="minami441-ws-0500-redux-github-viewer/"
+              index
+              element={<Home />}
+            />
             <Route path="profile" element={<Profile />} />
             <Route path="issue" element={<Issue />} />
             <Route path="pull-request" element={<Pullrequest />} />
