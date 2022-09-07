@@ -1,4 +1,4 @@
-# アプリケーション名
+## アプリケーション名
 
 redux-tutorial
 
@@ -7,7 +7,7 @@ redux-tutorial
 issue 管理アプリケーション
 redux のチュートリアル用に作成(個人学習用)
 
-### 機能
+## 機能
 
 ・作成機能
 ・編集機能
@@ -15,11 +15,11 @@ redux のチュートリアル用に作成(個人学習用)
 ・一括チェック機能
 ・検索機能
 
-### URL
+## URL
 
 https://minami441.github.io/minami441-ws-0500-redux-github-viewer
 
-### 使用したライブラリなど
+## 使用したライブラリなど
 
 ・react
 ・redux
@@ -27,6 +27,6 @@ https://minami441.github.io/minami441-ws-0500-redux-github-viewer
 ・styled-components
 ・React Router v6
 
-### ディレクトリ構成
+## ディレクトリ構成
 
 atomic design
