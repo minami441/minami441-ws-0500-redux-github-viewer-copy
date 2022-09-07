@@ -23,7 +23,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint lint.js",
     "lint:fix": "eslint --fix lint.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +54,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.6.1"
-  }
+  },
+  "homepage": "https://minami441.github.io/minami441-ws-0500-redux-github-viewer"
 }

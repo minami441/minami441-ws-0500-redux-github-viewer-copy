@@ -138,7 +138,7 @@ function App() {
         </Header>
         <Main>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" index element={<Home />} />
             <Route path="profile" element={<Profile />} />
             <Route path="issue" element={<Issue />} />
             <Route path="pull-request" element={<Pullrequest />} />
