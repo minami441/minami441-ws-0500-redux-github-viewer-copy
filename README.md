@@ -14,7 +14,7 @@ redux のチュートリアル用に作成(個人学習用)
 　-　削除機能
 　-　括チェック機能
 　-　検索機能
-
+- リスト１
 ## URL
 
 https://minami441.github.io/minami441-ws-0500-redux-github-viewer
