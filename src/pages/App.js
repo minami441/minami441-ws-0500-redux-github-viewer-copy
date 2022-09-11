@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import React, { useState } from "react";
-import Home from "../components/templates/Home";
-import Issue from "../components/templates/Issue";
-import Profile from "../components/templates/Profile";
-import Pullrequest from "../components/templates/PullRequest";
+import Home from "../pages/Home";
+import Issue from "../pages/Issue";
+import Profile from "../pages/Profile";
+import Pullrequest from "../pages/PullRequest";
 
 const Header = styled.div`
   display: flex;
@@ -120,7 +120,7 @@ function App() {
               <Togglelink>
                 <ul>
                   <Toggletab>
-                    <Link to="/">Top</Link>
+                    <Link to="/home">Top</Link>
                   </Toggletab>
                   <Toggletab>
                     <Link to="/profile">Your Profile</Link>
