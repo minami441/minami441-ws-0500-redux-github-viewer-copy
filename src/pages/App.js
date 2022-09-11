@@ -120,7 +120,7 @@ function App() {
               <Togglelink>
                 <ul>
                   <Toggletab>
-                    <Link to="/home">Top</Link>
+                    <Link to="minami441-ws-0500-redux-github-viewer/">Top</Link>
                   </Toggletab>
                   <Toggletab>
                     <Link to="/profile">Your Profile</Link>
