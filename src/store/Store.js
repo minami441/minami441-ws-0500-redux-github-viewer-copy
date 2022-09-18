@@ -60,7 +60,7 @@ const reducer = (state = initialData, action) => {
   switch (action.type) {
     case "add_issue":
       const { title, description } = action.payload || {};
-      initialData.data[index] = {
+      state.data[index] = {
         id: index,
         title: title,
         description: description,
@@ -69,11 +69,12 @@ const reducer = (state = initialData, action) => {
         ctdate: getdate(),
         update: getdate(),
       };
-      initialData.index++;
-      return initialData;
+      state.index++;
+      newState = state;
+      return newState;
     case "filter_issue":
       const greptxt = action.payload;
-      newState.data = Object.values(initialData.data).filter(function (value) {
+      newState.data = Object.values(state.data).filter(function (value) {
         return value.title.includes(greptxt);
       });
       return newState;

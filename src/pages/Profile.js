@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { connect } from "react-redux";
-import user from "../components/User";
+import user from "../store/User";
 
 const Profiler = styled.div`
   padding: 16px;
