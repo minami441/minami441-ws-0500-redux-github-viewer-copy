@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { connect } from "react-redux";
 import React from "react";
+import { useEffect } from "react";
 import Modal from "react-modal";
 import Buttons from "../../src/components/atoms/Button.js";
 import StatusBlock from "../../src/components/molecules/StatusBlock";
@@ -95,7 +96,7 @@ const customStyles = {
   },
 };
 
-function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
+function Issue({ issue, add_issue, edit_issue, delete_issue }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -106,9 +107,20 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   const [statusedit, setStatusEdit] = React.useState("");
   const [error, setError] = React.useState("");
   const [check, setCheck] = React.useState([]);
-  const [filtertxt, setFilter] = React.useState();
+  const [List, setList] = React.useState([]);
 
-  const List = Object.values(issue);
+  setList(Object.values(issue));
+
+  // useEffect(() => {
+  //   setList(Object.values(issue));
+  // }, [issue]);
+
+  const filter = (filter) => {
+    const tmp = Object.values(issue).filter(function (value) {
+      return value.title.includes(filter);
+    });
+    setList(tmp);
+  };
 
   const onSubmit = () => {
     if (!text) {
@@ -120,18 +132,12 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
       return;
     }
     add_issue({ title: text, description: description });
-    if (filtertxt) {
-      filter_issue(filtertxt);
+    if (Lists) {
     }
     setError("");
     setText("");
     setDescription("");
     setIsOpen(false);
-  };
-
-  const filter = (filter) => {
-    setFilter(filter);
-    filter_issue(filter);
   };
 
   const onSubmitEdit = () => {
@@ -150,8 +156,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
       descriptionedit: descriptionedit,
       statusedit: statusedit,
     });
-    if (filtertxt) {
-      filter_issue(filtertxt);
+    if (List) {
     }
     setError("");
     setIsOpenEdit(false);
@@ -330,8 +335,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     add_issue: (list) => dispatch({ type: "add_issue", payload: list }),
-    filter_issue: (filtertxt) =>
-      dispatch({ type: "filter_issue", payload: filtertxt }),
     edit_issue: (edittxt) => dispatch({ type: "edit_issue", payload: edittxt }),
     delete_issue: (list) => dispatch({ type: "delete_issue", payload: list }),
   };

@@ -56,11 +56,12 @@ const reducer = (state = initialData, action) => {
   let newState = {
     data: "",
   };
-  const index = initialData.index + 1;
+  const index = state.index + 1;
   switch (action.type) {
     case "add_issue":
       const { title, description } = action.payload || {};
-      state.data[index] = {
+      newState = state;
+      newState.data[4] = {
         id: index,
         title: title,
         description: description,
@@ -69,25 +70,21 @@ const reducer = (state = initialData, action) => {
         ctdate: getdate(),
         update: getdate(),
       };
-      state.index++;
-      newState = state;
-      return newState;
-    case "filter_issue":
-      const greptxt = action.payload;
-      newState.data = Object.values(state.data).filter(function (value) {
-        return value.title.includes(greptxt);
-      });
       return newState;
     case "edit_issue":
       const { id, textedit, descriptionedit, statusedit } = action.payload;
-      initialData.data[id].title = textedit;
-      initialData.data[id].description = descriptionedit;
-      initialData.data[id].status = statusedit;
-      return initialData;
+      state.data[id].title = textedit;
+      state.data[id].description = descriptionedit;
+      state.data[id].status = statusedit;
+      newState = state;
+      return newState;
     case "delete_issue":
-      const delete_id = action.payload;
-      delete_id.forEach((e) => delete initialData.data[e]);
-      newState.data = Object.values(initialData.data);
+      // const delete_id = action.payload;
+      // delete_id.forEach((e) => delete state.data[e]);
+      // newState = state;
+      //state = state.data[0];
+      console.log(Object.values(state.data));
+      newState.data = state;
       return newState;
     default:
       return state;
