@@ -18,50 +18,48 @@ function getdate() {
 }
 
 let initialData = {
-  1: {
-    id: 1,
-    title: "A bug in Top Page",
-    status: 0,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ctuser: "",
-    ctdate: getdate(),
-    update: getdate(),
-  },
-  2: {
-    id: 2,
-    title: "A problem of performance in Top Page",
-    status: 0,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ctuser: "",
-    ctdate: getdate(),
-    update: getdate(),
-  },
-  3: {
-    id: 3,
-    title: "fix layout",
-    status: 0,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    ctuser: "",
-    ctdate: getdate(),
-    update: getdate(),
+  data: {
+    1: {
+      id: 1,
+      title: "A bug in Top Page",
+      status: 0,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      ctuser: "",
+      ctdate: getdate(),
+      update: getdate(),
+    },
+    2: {
+      id: 2,
+      title: "A problem of performance in Top Page",
+      status: 0,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      ctuser: "",
+      ctdate: getdate(),
+      update: getdate(),
+    },
+    3: {
+      id: 3,
+      title: "fix layout",
+      status: 0,
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      ctuser: "",
+      ctdate: getdate(),
+      update: getdate(),
+    },
   },
 };
-
-initialData = {
-  index: Object.values(initialData).length,
-  data: initialData,
-};
+initialData.index = Object.values(initialData.data).length;
 
 const reducer = (state = initialData, action) => {
   let newState = {
     data: "",
   };
-  const index = state.index + 1;
+
   switch (action.type) {
     case "add_issue":
+      const index = ++state.index;
       const { title, description } = action.payload || {};
-      newState = state;
-      newState.data[4] = {
+      state.data[index] = {
         id: index,
         title: title,
         description: description,
@@ -70,6 +68,8 @@ const reducer = (state = initialData, action) => {
         ctdate: getdate(),
         update: getdate(),
       };
+      console.log(state);
+      newState = state;
       return newState;
     case "edit_issue":
       const { id, textedit, descriptionedit, statusedit } = action.payload;
@@ -79,12 +79,9 @@ const reducer = (state = initialData, action) => {
       newState = state;
       return newState;
     case "delete_issue":
-      // const delete_id = action.payload;
-      // delete_id.forEach((e) => delete state.data[e]);
-      // newState = state;
-      //state = state.data[0];
-      console.log(Object.values(state.data));
-      newState.data = state;
+      const delete_id = action.payload;
+      delete_id.forEach((e) => delete state.data[e]);
+      newState = state;
       return newState;
     default:
       return state;

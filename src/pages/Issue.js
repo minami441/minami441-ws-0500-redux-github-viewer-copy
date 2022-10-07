@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { connect } from "react-redux";
 import React from "react";
-import { useEffect } from "react";
 import Modal from "react-modal";
 import Buttons from "../../src/components/atoms/Button.js";
 import StatusBlock from "../../src/components/molecules/StatusBlock";
@@ -96,7 +95,7 @@ const customStyles = {
   },
 };
 
-function Issue({ issue, add_issue, edit_issue, delete_issue }) {
+function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -107,19 +106,21 @@ function Issue({ issue, add_issue, edit_issue, delete_issue }) {
   const [statusedit, setStatusEdit] = React.useState("");
   const [error, setError] = React.useState("");
   const [check, setCheck] = React.useState([]);
-  const [List, setList] = React.useState([]);
+  const [filtxt, setFiltxt] = React.useState();
 
-  setList(Object.values(issue));
+  let List = Object.values(issue);
 
-  // useEffect(() => {
-  //   setList(Object.values(issue));
-  // }, [issue]);
+  if (filtxt) {
+    List = List.filter((value) => value.title.includes(filtxt));
+  }
 
   const filter = (filter) => {
-    const tmp = Object.values(issue).filter(function (value) {
-      return value.title.includes(filter);
-    });
-    setList(tmp);
+    setFiltxt(filter);
+  };
+
+  const delete_list = () => {
+    delete_issue(check);
+    setCheck([]);
   };
 
   const onSubmit = () => {
@@ -132,8 +133,6 @@ function Issue({ issue, add_issue, edit_issue, delete_issue }) {
       return;
     }
     add_issue({ title: text, description: description });
-    if (Lists) {
-    }
     setError("");
     setText("");
     setDescription("");
@@ -156,8 +155,6 @@ function Issue({ issue, add_issue, edit_issue, delete_issue }) {
       descriptionedit: descriptionedit,
       statusedit: statusedit,
     });
-    if (List) {
-    }
     setError("");
     setIsOpenEdit(false);
   };
@@ -219,7 +216,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue }) {
         <Action>
           <Inheaders
             open={() => setIsOpen(true)}
-            delete={() => delete_issue(check)}
+            delete={() => delete_list()}
             filter={(e) => filter(e.target.value)}
           />
         </Action>
@@ -319,7 +316,11 @@ function Issue({ issue, add_issue, edit_issue, delete_issue }) {
                   checked={check.includes(val.id.toString())}
                 />
               ))}
-              {!List[0] && <td colspan="6">データがありません</td>}
+              {!List[0] && (
+                <tr>
+                  <td colSpan="6">データがありません</td>
+                </tr>
+              )}
             </tbody>
           </Issuetable>
         </Lists>

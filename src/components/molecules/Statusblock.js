@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import Selectstatus from "../atoms/Select";
+import Select from "../atoms/Select";
 
 const Statusarea = styled.div`
   padding: 16px;
@@ -15,7 +15,7 @@ const StatusBlock = (props) => {
   return (
     <Statusarea>
       <Statuslabel>{props.label}</Statuslabel>
-      <Selectstatus
+      <Select
         onChange={props.onChange}
         default={props.default}
         options={props.options}
