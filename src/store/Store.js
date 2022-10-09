@@ -68,7 +68,6 @@ const reducer = (state = initialData, action) => {
         ctdate: getdate(),
         update: getdate(),
       };
-      console.log(state);
       newState = state;
       return newState;
     case "edit_issue":
