@@ -59,7 +59,8 @@ const reducer = (state = initialData, action) => {
     case "add_issue":
       const index = ++state.index;
       const { title, description } = action.payload || {};
-      state.data[index] = {
+      newState = state;
+      newState.data[index] = {
         id: index,
         title: title,
         description: description,
@@ -68,19 +69,18 @@ const reducer = (state = initialData, action) => {
         ctdate: getdate(),
         update: getdate(),
       };
-      newState = state;
       return newState;
     case "edit_issue":
       const { id, textedit, descriptionedit, statusedit } = action.payload;
-      state.data[id].title = textedit;
-      state.data[id].description = descriptionedit;
-      state.data[id].status = statusedit;
       newState = state;
+      newState.data[id].title = textedit;
+      newState.data[id].description = descriptionedit;
+      newState.data[id].status = statusedit;
       return newState;
     case "delete_issue":
       const delete_id = action.payload;
-      delete_id.forEach((e) => delete state.data[e]);
       newState = state;
+      delete_id.forEach((e) => delete newState.data[e]);
       return newState;
     default:
       return state;
