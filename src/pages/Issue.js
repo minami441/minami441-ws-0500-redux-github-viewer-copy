@@ -101,21 +101,21 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   const [text, setText] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [vals, setVal] = React.useState("");
-  const [textedit, setTextEdit] = React.useState("");
-  const [descriptionedit, setDescriptionEdit] = React.useState("");
-  const [statusedit, setStatusEdit] = React.useState("");
+  const [textEdit, setTextEdit] = React.useState("");
+  const [descriptionEdit, setDescriptionEdit] = React.useState("");
+  const [statusEdit, setStatusEdit] = React.useState("");
   const [error, setError] = React.useState("");
   const [check, setCheck] = React.useState([]);
-  const [filtxt, setFiltxt] = React.useState();
+  const [filTxt, setFilTxt] = React.useState();
 
   let List = Object.values(issue);
 
-  if (filtxt) {
-    List = List.filter((value) => value.title.includes(filtxt));
+  if (filTxt) {
+    List = List.filter((value) => value.title.includes(filTxt));
   }
 
   const filter = (filter) => {
-    setFiltxt(filter);
+    setFilTxt(filter);
   };
 
   const delete_list = () => {
@@ -140,20 +140,19 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   };
 
   const onSubmitEdit = () => {
-    if (!textedit) {
+    if (!textEdit) {
       setError({ message: "タイトル" });
       return;
     }
-    if (!descriptionedit) {
+    if (!descriptionEdit) {
       setError({ message: "説明" });
       return;
     }
-
     edit_issue({
       id: vals.id,
-      textedit: textedit,
-      descriptionedit: descriptionedit,
-      statusedit: statusedit,
+      textEdit: textEdit,
+      descriptionEdit: descriptionEdit,
+      statusEdit: statusEdit,
     });
     setError("");
     setIsOpenEdit(false);
@@ -179,7 +178,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
     setIsOpenEdit(false);
   };
 
-  const checkedbox = (e) => {
+  const checkedBox = (e) => {
     e.stopPropagation();
     const { id, checked } = e.target;
     setCheck([...check, id]);
@@ -188,7 +187,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
     }
   };
 
-  const AllChecked = () => {
+  const allChecked = () => {
     if (check.length === List.length) {
       setCheck([]);
     } else {
@@ -199,7 +198,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
     }
   };
 
-  const StatusOptions = [
+  const statusOptions = [
     {
       label: "Open",
       value: "0",
@@ -225,7 +224,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
             <thead>
               <tr>
                 <th>
-                  <input type="checkbox" onChange={AllChecked} />
+                  <input type="checkbox" onChange={allChecked} />
                 </th>
                 <th></th>
                 <th>ステータス</th>
@@ -294,7 +293,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                     label="ステータス"
                     onChange={(e) => setStatusEdit(e.target.value)}
                     default={vals.status}
-                    options={StatusOptions}
+                    options={statusOptions}
                   />
                 </Modalcontents>
                 <Alert error={error} />
@@ -312,7 +311,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                   key={key}
                   val={val}
                   openEdit={() => openEdit(val)}
-                  checkedbox={checkedbox}
+                  checkedBox={checkedBox}
                   checked={check.includes(val.id.toString())}
                 />
               ))}

@@ -2,6 +2,10 @@
 
 redux-tutorial
 
+## 参照
+
+https://github.com/version1-workspace/ws-0500-redux-github-viewer
+
 ## アプリケーション概要
 
 issue 管理アプリケーション
@@ -26,6 +30,7 @@ https://minami441.github.io/minami441-ws-0500-redux-github-viewer
 - react-modal
 - styled-components
 - React Router v6
+- eslint+prettie
 
 ## ディレクトリ構成
 
