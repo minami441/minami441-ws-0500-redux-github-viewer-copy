@@ -108,10 +108,10 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   const [check, setCheck] = React.useState([]);
   const [filTxt, setFilTxt] = React.useState();
 
-  let List = Object.values(issue);
+  let list = Object.values(issue);
 
   if (filTxt) {
-    List = List.filter((value) => value.title.includes(filTxt));
+    list = list.filter((value) => value.title.includes(filTxt));
   }
 
   const filter = (filter) => {
@@ -188,10 +188,10 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   };
 
   const allChecked = () => {
-    if (check.length === List.length) {
+    if (check.length === list.length) {
       setCheck([]);
     } else {
-      const tmp = List.map(function (val) {
+      const tmp = list.map(function (val) {
         return val.id.toString();
       });
       setCheck(tmp);
@@ -306,7 +306,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
               </Modallabel>
             </Modal>
             <tbody>
-              {List.map((val, key) => (
+              {list.map((val, key) => (
                 <Issuetr
                   key={key}
                   val={val}
@@ -315,7 +315,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                   checked={check.includes(val.id.toString())}
                 />
               ))}
-              {!List[0] && (
+              {!list[0] && (
                 <tr>
                   <td colSpan="6">データがありません</td>
                 </tr>
