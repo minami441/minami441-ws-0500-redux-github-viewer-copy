@@ -7,27 +7,27 @@ const Profiler = styled.div`
   margin: auto;
 `;
 
-const Profiletitle = styled.h1`
+const ProfileTitle = styled.h1`
   font-size: 2rem;
   padding: 0px;
   margin: 0px;
 `;
 
-const Profilecontents = styled.div`
+const ProfileContents = styled.div`
   margin: 32px 0px;
   display: flex;
   border-radius: 6px;
   border: 1px solid rgb(225, 228, 232);
 `;
 
-const Profileimage = styled.div`
+const ProfileImage = styled.div`
   padding: 16px;
   width: 50%;
 `;
 
-const Profileleft = styled.div``;
+const ProfileLeft = styled.div``;
 
-const Profilelabel = styled.label`
+const ProfileLabel = styled.label`
   color: rgb(88, 96, 105);
 `;
 
@@ -41,38 +41,38 @@ const ProfileText = styled.div`
   width: 50%;
 `;
 
-const Profileuser = styled.div``;
+const ProfileUser = styled.div``;
 
-const Profilemail = styled.div``;
+const ProfileMail = styled.div``;
 
 function Profile(user) {
   const List = Object.values(user)[0];
   return (
     <Profiler store={user}>
-      <Profiletitle>Profile</Profiletitle>
-      <Profilecontents>
-        <Profileimage>
-          <Profileleft>
-            <Profilelabel>プロフィール</Profilelabel>
+      <ProfileTitle>Profile</ProfileTitle>
+      <ProfileContents>
+        <ProfileImage>
+          <ProfileLeft>
+            <ProfileLabel>プロフィール</ProfileLabel>
             <Profilep>
               <img
                 src="https://avatars1.githubusercontent.com/u/25723193?s=60&amp;u=5f2d871352830fdf1a79ee285e0712044105ca91&amp;v=4"
                 alt="プロフィール"
               />
             </Profilep>
-          </Profileleft>
-        </Profileimage>
+          </ProfileLeft>
+        </ProfileImage>
         <ProfileText>
-          <Profileuser>
-            <Profilelabel>ユーザー名</Profilelabel>
+          <ProfileUser>
+            <ProfileLabel>ユーザー名</ProfileLabel>
             <Profilep>{List.name}</Profilep>
-          </Profileuser>
-          <Profilemail>
-            <Profilelabel>メールアドレス</Profilelabel>
+          </ProfileUser>
+          <ProfileMail>
+            <ProfileLabel>メールアドレス</ProfileLabel>
             <Profilep>{List.mail}</Profilep>
-          </Profilemail>
+          </ProfileMail>
         </ProfileText>
-      </Profilecontents>
+      </ProfileContents>
     </Profiler>
   );
 }

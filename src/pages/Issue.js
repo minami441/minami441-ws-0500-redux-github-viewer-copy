@@ -4,9 +4,9 @@ import React from "react";
 import Modal from "react-modal";
 import Buttons from "../../src/components/atoms/Button.js";
 import StatusBlock from "../../src/components/molecules/StatusBlock";
-import Inheaders from "../../src/components/organisms/Inheader";
-import Issuetr from "../../src/components/organisms/Issuetr";
-import Labeltext from "../../src/components/atoms/LabelText";
+import InHeaders from "../../src/components/organisms/InHeader";
+import IssueTr from "../../src/components/organisms/IssueTr";
+import LabelText from "../../src/components/atoms/LabelText";
 import TextBlock from "../../src/components/molecules/InputBlock";
 import TextareaBlock from "../../src/components/molecules/TextareaBlock";
 import Alert from "../../src/components//molecules/AlertBlock";
@@ -26,7 +26,7 @@ const Lists = styled.div`
   overflow: scroll;
 `;
 
-const Issuetable = styled.table`
+const IssueTable = styled.table`
   border: 1px solid rgb(225, 228, 232);
   border-radius: 6px;
 
@@ -44,7 +44,7 @@ const Issuetable = styled.table`
   }
 `;
 
-const Modallabel = styled.div`
+const ModalLabel = styled.div`
   max-width: 598px;
   margin: auto;
   textarea {
@@ -55,11 +55,11 @@ const Modallabel = styled.div`
   }
 `;
 
-const Modalcontents = styled.div`
+const ModalContents = styled.div`
   padding: 32px 0px 16px;
 `;
 
-const Modalbuttons = styled.div`
+const ModalButtons = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -213,14 +213,14 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
     <Section>
       <Container>
         <Action>
-          <Inheaders
+          <InHeaders
             open={() => setIsOpen(true)}
             delete={() => delete_list()}
             filter={(e) => filter(e.target.value)}
           />
         </Action>
         <Lists>
-          <Issuetable>
+          <IssueTable>
             <thead>
               <tr>
                 <th>
@@ -243,9 +243,9 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
               ariaHideApp={false}
               contentLabel="Example Modal"
             >
-              <Modallabel>
-                <Labeltext>Issueを追加</Labeltext>
-                <Modalcontents>
+              <ModalLabel>
+                <LabelText>Issueを追加</LabelText>
+                <ModalContents>
                   <TextBlock
                     valid="textarea"
                     label="タイトル"
@@ -257,15 +257,15 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="説明を入力してください"
                   />
-                </Modalcontents>
+                </ModalContents>
                 <Alert error={error} />
-                <Modalbuttons>
+                <ModalButtons>
                   <Buttons success onClick={() => onSubmit()}>
                     作成
                   </Buttons>
                   <Buttons onClick={closeModal}>閉じる</Buttons>
-                </Modalbuttons>
-              </Modallabel>
+                </ModalButtons>
+              </ModalLabel>
             </Modal>
 
             <Modal
@@ -274,9 +274,9 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
               ariaHideApp={false}
               contentLabel="Example Modal"
             >
-              <Modallabel>
-                <Labeltext>Issueを追加</Labeltext>
-                <Modalcontents>
+              <ModalLabel>
+                <LabelText>Issueを追加</LabelText>
+                <ModalContents>
                   <TextBlock
                     label="タイトル"
                     default={vals.title}
@@ -295,19 +295,19 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                     default={vals.status}
                     options={statusOptions}
                   />
-                </Modalcontents>
+                </ModalContents>
                 <Alert error={error} />
-                <Modalbuttons>
+                <ModalButtons>
                   <Buttons success onClick={() => onSubmitEdit()}>
                     更新
                   </Buttons>
                   <Buttons onClick={() => closeModalEdit()}>閉じる</Buttons>
-                </Modalbuttons>
-              </Modallabel>
+                </ModalButtons>
+              </ModalLabel>
             </Modal>
             <tbody>
               {list.map((val, key) => (
-                <Issuetr
+                <IssueTr
                   key={key}
                   val={val}
                   openEdit={() => openEdit(val)}
@@ -321,7 +321,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
                 </tr>
               )}
             </tbody>
-          </Issuetable>
+          </IssueTable>
         </Lists>
       </Container>
     </Section>

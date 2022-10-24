@@ -18,12 +18,12 @@ const Header = styled.div`
   color: white;
 `;
 
-const Gihtubviewer = styled.h1`
+const GihtubViewer = styled.h1`
   white-space: nowrap;
   color: white;
 `;
 
-const Ulist = styled.ul`
+const UList = styled.ul`
   display: flex;
   width: 100%;
   padding: 0px 32px;
@@ -45,7 +45,7 @@ const Main = styled.div`
   padding: 32px 16px;
 `;
 
-const Toggletab = styled.li`
+const ToggleTab = styled.li`
   a {
     display: block;
     color: rgb(51, 51, 51);
@@ -60,7 +60,7 @@ const Toggletab = styled.li`
   }
 `;
 
-const Togglelink = styled.div`
+const ToggleLink = styled.div`
   position: absolute;
   margin-top: 16px;
   right: 16px;
@@ -99,16 +99,16 @@ function App() {
       <BrowserRouter>
         <Header>
           <Link to="minami441-ws-0500-redux-github-viewer/">
-            <Gihtubviewer>Github Viewer</Gihtubviewer>
+            <GihtubViewer>Github Viewer</GihtubViewer>
           </Link>
-          <Ulist>
+          <UList>
             <List>
               <Link to="/issue">Issue</Link>
             </List>
             <List>
               <Link to="/pull-request">Pull Request</Link>
             </List>
-          </Ulist>
+          </UList>
           <Toggle>
             <Icon
               className="fa fa-bars"
@@ -117,22 +117,22 @@ function App() {
               }}
             />
             {isOpen && (
-              <Togglelink>
+              <ToggleLink>
                 <ul>
-                  <Toggletab>
+                  <ToggleTab>
                     <Link to="minami441-ws-0500-redux-github-viewer/">Top</Link>
-                  </Toggletab>
-                  <Toggletab>
+                  </ToggleTab>
+                  <ToggleTab>
                     <Link to="/profile">Your Profile</Link>
-                  </Toggletab>
-                  <Toggletab>
+                  </ToggleTab>
+                  <ToggleTab>
                     <Link to="/issue">Issue</Link>
-                  </Toggletab>
-                  <Toggletab>
+                  </ToggleTab>
+                  <ToggleTab>
                     <Link to="/pull-request">Pull Request</Link>
-                  </Toggletab>
+                  </ToggleTab>
                 </ul>
-              </Togglelink>
+              </ToggleLink>
             )}
           </Toggle>
         </Header>

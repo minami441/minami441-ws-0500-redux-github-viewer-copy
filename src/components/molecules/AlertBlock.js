@@ -1,19 +1,19 @@
 import styled from "styled-components";
-import Alerttext from "../atoms/Alerttext";
+import AlertText from "../atoms/AlertText";
 import React from "react";
 
-const Alertarea = styled.div`
+const AlertArea = styled.div`
   padding: 16px;
   min-height: 100px;
 `;
 
 const Alert = (props) => {
   return (
-    <Alertarea>
+    <AlertArea>
       {props.error && (
-        <Alerttext>{props.error.message}を入力してください</Alerttext>
+        <AlertText>{props.error.message}を入力してください</AlertText>
       )}
-    </Alertarea>
+    </AlertArea>
   );
 };
 

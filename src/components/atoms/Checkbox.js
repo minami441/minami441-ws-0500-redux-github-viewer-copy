@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const Checkbox = styled.input``;
+const CheckBox = styled.input``;
 
-Checkbox.defaultProps = {
+CheckBox.defaultProps = {
   type: "checkbox",
 };
 
-export default Checkbox;
+export default CheckBox;

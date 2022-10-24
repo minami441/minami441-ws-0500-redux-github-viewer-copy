@@ -3,13 +3,13 @@ import React from "react";
 import Buttons from "../atoms/Button";
 import Search from "../molecules/SearchBlock";
 
-const Inheader = styled.div`
+const InHeader = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
 `;
 
-const Issueheader = styled.h2``;
+const IssueHeader = styled.h2``;
 
 const ActionButton = styled.div`
   display: flex;
@@ -17,8 +17,8 @@ const ActionButton = styled.div`
 
 const Inheaders = (props) => {
   return (
-    <Inheader>
-      <Issueheader>Issue</Issueheader>
+    <InHeader>
+      <IssueHeader>Issue</IssueHeader>
       <Search type="input" placeholder="Issue名で検索" filter={props.filter} />
       <ActionButton>
         <Buttons success onClick={props.open}>
@@ -28,7 +28,7 @@ const Inheaders = (props) => {
           Delete
         </Buttons>
       </ActionButton>
-    </Inheader>
+    </InHeader>
   );
 };
 
