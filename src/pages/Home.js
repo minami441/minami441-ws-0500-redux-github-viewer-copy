@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import Issue from "../pages/Issue";
-import Pullrequest from "../pages/PullRequest";
+import PullRequest from "../pages/PullRequest";
 
 const Container = styled.div``;
 
 const Section = styled.div``;
 
-const Tablist = styled.div``;
+const TabList = styled.div``;
 
 const TabUlist = styled.ul`
   display: flex;
@@ -39,7 +39,7 @@ const IssueTab = styled.li`
 }
 `;
 
-const PullreqTab = styled.li`
+const PullReqTab = styled.li`
   font-size: 1.2rem;
   width: 100%;
   text-align: center;
@@ -70,7 +70,7 @@ const IssueTags = styled.span`
   width: 100%;
 `;
 
-const PullreqTags = styled.span`
+const PullReqTags = styled.span`
   cursor: pointer;
   color: rgb(88, 96, 105);
   padding: 16px;
@@ -83,17 +83,17 @@ function Home() {
   return (
     <Container>
       <Section>
-        <Tablist>
+        <TabList>
           <TabUlist>
             <IssueTab onClick={() => setState(true)} isActive={state}>
               <IssueTags>Issue</IssueTags>
             </IssueTab>
-            <PullreqTab onClick={() => setState(false)} isActive={state}>
-              <PullreqTags>Pull Request</PullreqTags>
-            </PullreqTab>
+            <PullReqTab onClick={() => setState(false)} isActive={state}>
+              <PullReqTags>Pull Request</PullReqTags>
+            </PullReqTab>
           </TabUlist>
-        </Tablist>
-        {state ? <Issue /> : <Pullrequest />}
+        </TabList>
+        {state ? <Issue /> : <PullRequest />}
       </Section>
     </Container>
   );
