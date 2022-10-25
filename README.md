@@ -4,6 +4,7 @@ redux-tutorial
 
 ## 参照
 
+react 学習のため、手本とした
 https://github.com/version1-workspace/ws-0500-redux-github-viewer
 
 ## アプリケーション概要
