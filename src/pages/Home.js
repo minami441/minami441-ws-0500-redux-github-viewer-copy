@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import Issue from "../pages/Issue";
+import Issue from "../components/templates/Issue";
 import PullRequest from "../pages/PullRequest";
 
 const Container = styled.div``;

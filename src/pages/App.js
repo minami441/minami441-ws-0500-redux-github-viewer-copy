@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 import React, { useState } from "react";
 import Home from "../pages/Home";
-import Issue from "../pages/Issue";
+import Issue from "../components/templates/Issue";
 import Profile from "../pages/Profile";
-import Pullrequest from "../pages/PullRequest";
+import PullRequest from "../pages/PullRequest";
 
 const Header = styled.div`
   display: flex;
@@ -145,7 +145,7 @@ function App() {
             />
             <Route path="profile" element={<Profile />} />
             <Route path="issue" element={<Issue />} />
-            <Route path="pull-request" element={<Pullrequest />} />
+            <Route path="pull-request" element={<PullRequest />} />
           </Routes>
         </Main>
       </BrowserRouter>

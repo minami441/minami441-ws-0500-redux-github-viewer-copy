@@ -2,14 +2,14 @@ import styled, { createGlobalStyle } from "styled-components";
 import { connect } from "react-redux";
 import React from "react";
 import Modal from "react-modal";
-import Buttons from "../../src/components/atoms/Button.js";
-import StatusBlock from "../../src/components/molecules/StatusBlock";
-import InHeaders from "../../src/components/organisms/InHeader";
-import IssueTr from "../../src/components/organisms/IssueTr";
-import LabelText from "../../src/components/atoms/LabelText";
-import TextBlock from "../../src/components/molecules/InputBlock";
-import TextareaBlock from "../../src/components/molecules/TextareaBlock";
-import Alert from "../../src/components//molecules/AlertBlock";
+import Buttons from "../atoms/Button.js";
+import StatusBlock from "../molecules/StatusBlock";
+import InHeaders from "../organisms/InHeader";
+import IssueTr from "../organisms/IssueTr";
+import LabelText from "../atoms/LabelText";
+import TextBlock from "../molecules/InputBlock";
+import TextareaBlock from "../molecules/TextareaBlock";
+import Alert from "../molecules/AlertBlock";
 
 const Section = styled.div`
   padding: 16px;
