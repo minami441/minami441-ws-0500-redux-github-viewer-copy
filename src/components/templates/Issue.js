@@ -95,7 +95,7 @@ const customStyles = {
   },
 };
 
-function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
+function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -119,7 +119,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
   };
 
   const delete_list = () => {
-    delete_issue(check);
+    deleteIssue(check);
     setCheck([]);
   };
 
@@ -132,7 +132,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
       setError({ message: "説明" });
       return;
     }
-    add_issue({ title: text, description: description });
+    addIssue({ title: text, description: description });
     setError("");
     setText("");
     setDescription("");
@@ -148,7 +148,7 @@ function Issue({ issue, add_issue, edit_issue, delete_issue, filter_issue }) {
       setError({ message: "説明" });
       return;
     }
-    edit_issue({
+    editIssue({
       id: vals.id,
       textEdit: textEdit,
       descriptionEdit: descriptionEdit,
@@ -334,9 +334,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    add_issue: (list) => dispatch({ type: "add_issue", payload: list }),
-    edit_issue: (edittxt) => dispatch({ type: "edit_issue", payload: edittxt }),
-    delete_issue: (list) => dispatch({ type: "delete_issue", payload: list }),
+    addIssue: (list) => dispatch({ type: "addIssue", payload: list }),
+    editIssue: (edittxt) => dispatch({ type: "editIssue", payload: edittxt }),
+    deleteIssue: (list) => dispatch({ type: "deleteIssue", payload: list }),
   };
 };
 

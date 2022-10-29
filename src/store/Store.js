@@ -51,9 +51,9 @@ let initialData = {
 initialData.index = Object.values(initialData.data).length;
 
 const ISSUE_ACTION = {
-  add: "add_issue",
-  edit: "edit_issue",
-  delete: "delete_issue",
+  add: "addIssue",
+  edit: "editIssue",
+  delete: "deleteIssue",
 };
 
 const reducer = (state = initialData, action) => {
