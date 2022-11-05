@@ -22,7 +22,9 @@ const Issuetr = (props) => {
           onChange={dummy}
         />
       </td>
-      <td>{props.val.title}</td>
+      <td>
+        <a href={props.val.url}>{props.val.title}</a>
+      </td>
       <td>{Status[props.val.status]}</td>
       <td>{props.val.ctuser}</td>
       <td>{props.val.ctdate}</td>

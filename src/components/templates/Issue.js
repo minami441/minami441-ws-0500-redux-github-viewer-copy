@@ -109,11 +109,10 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   const [filTxt, setFilTxt] = React.useState();
 
   let list = Object.values(issue);
-
+  console.log(list);
   if (filTxt) {
     list = list.filter((value) => value.title.includes(filTxt));
   }
-
   const filter = (filter) => {
     setFilTxt(filter);
   };
@@ -329,7 +328,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
 }
 
 const mapStateToProps = (state) => {
-  return { issue: state.data };
+  return { issue: state };
 };
 
 const mapDispatchToProps = (dispatch) => {

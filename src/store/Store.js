@@ -1,5 +1,6 @@
 import { createStore } from "redux";
 import user from "./User.js";
+import axios from "axios";
 
 function getDate() {
   const date = new Date();
@@ -17,48 +18,45 @@ function getDate() {
   return MM + "-" + DD + "-" + YYYY;
 }
 
-let initialData = {
-  data: {
-    1: {
-      id: 1,
-      title: "A bug in Top Page",
-      status: 0,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      ctuser: "",
-      ctdate: getDate(),
-      update: getDate(),
-    },
-    2: {
-      id: 2,
-      title: "A problem of performance in Top Page",
-      status: 0,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      ctuser: "",
-      ctdate: getDate(),
-      update: getDate(),
-    },
-    3: {
-      id: 3,
-      title: "fix layout",
-      status: 0,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      ctuser: "",
-      ctdate: getDate(),
-      update: getDate(),
-    },
-  },
-};
-initialData.index = Object.values(initialData.data).length;
-
 const ISSUE_ACTION = {
   add: "addIssue",
   edit: "editIssue",
   delete: "deleteIssue",
 };
 
-const reducer = (state = initialData, action) => {
-  const newState = { ...state, data: { ...state.data } };
+const url =
+  "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
 
+let initialData = {};
+
+function initData() {
+  axios
+    .get(url)
+    .then((res) => {
+      const items = res.data;
+      for (const item of items) {
+        initialData[item.number] = {
+          id: item.number,
+          title: item.title,
+          status: item.state,
+          description: item.body,
+          url: item.html_url,
+          ctuser: "jjoo",
+          ctdate: item.created_at,
+          update: item.updated_at,
+        };
+      }
+    })
+    .catch((error) => {
+      const { status, statusText } = error.response;
+      console.log(`Error! HTTP Status: ${status} ${statusText}`);
+    });
+}
+
+initData();
+
+const reducer = (state = initialData, action) => {
+  const newState = { ...state };
   switch (action.type) {
     case ISSUE_ACTION["add"]:
       const index = ++newState.index;
