@@ -24,52 +24,32 @@ const ISSUE_ACTION = {
   delete: "deleteIssue",
 };
 
-const url =
-  "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
-
 let initialData = {};
-
-function initData() {
-  axios
-    .get(url)
-    .then((res) => {
-      const items = res.data;
-      for (const item of items) {
-        initialData[item.number] = {
-          id: item.number,
-          title: item.title,
-          status: item.state,
-          description: item.body,
-          url: item.html_url,
-          ctuser: "jjoo",
-          ctdate: item.created_at,
-          update: item.updated_at,
-        };
-      }
-    })
-    .catch((error) => {
-      const { status, statusText } = error.response;
-      console.log(`Error! HTTP Status: ${status} ${statusText}`);
-    });
-}
-
-initData();
 
 const reducer = (state = initialData, action) => {
   const newState = { ...state };
   switch (action.type) {
     case ISSUE_ACTION["add"]:
-      const index = ++newState.index;
+      //const index = ++newState.index;
       const { title, description } = action.payload || {};
-      newState.data[index] = {
-        id: index,
-        title: title,
-        description: description,
-        status: 0,
-        ctuser: user.name,
-        ctdate: getDate(),
-        update: getDate(),
-      };
+      axios({
+        method: "POST",
+        url: "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues",
+        data: { title: title, body: description },
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+        },
+      })
+        .then((res) => {
+          console.log(res.status); // ステータスコード
+          console.log(res.data); // レスポンスデータ
+          console.log(res.statusText); // ステータスメッセージ
+          console.log(res.headers); // レスポンスヘッダー
+          console.log(res.config); // 設定
+        })
+        .catch((error) => {
+          console.log("error: " + error);
+        });
       return newState;
     case ISSUE_ACTION["edit"]:
       const { id, textEdit, descriptionEdit, statusEdit } = action.payload;
