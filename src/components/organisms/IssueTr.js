@@ -25,10 +25,10 @@ const Issuetr = (props) => {
       <td>
         <a href={props.val.url}>{props.val.title}</a>
       </td>
-      <td>{Status[props.val.status]}</td>
+      <td>{props.val.state}</td>
       <td>{props.val.ctuser}</td>
-      <td>{props.val.ctdate}</td>
-      <td>{props.val.update}</td>
+      <td>{props.val.created_at}</td>
+      <td>{props.val.updated_at}</td>
     </IssueTable>
   );
 };

@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { connect } from "react-redux";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import Buttons from "../atoms/Button.js";
 import StatusBlock from "../molecules/StatusBlock";
@@ -107,12 +108,23 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   const [error, setError] = React.useState("");
   const [check, setCheck] = React.useState([]);
   const [filTxt, setFilTxt] = React.useState();
+  const [list, setList] = React.useState([]);
+  const [master, setMaster] = React.useState([]);
 
-  let list = Object.values(issue);
-  console.log(list);
-  if (filTxt) {
-    list = list.filter((value) => value.title.includes(filTxt));
-  }
+  useEffect(() => {
+    const url =
+      "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
+    axios.get(url).then(function (response) {
+      setList(response.data);
+      setMaster(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    const tmp = master.filter((value) => value.title.includes(filTxt));
+    setList(tmp);
+  }, [filTxt]);
+
   const filter = (filter) => {
     setFilTxt(filter);
   };
