@@ -9,21 +9,20 @@ const IssueTable = styled.tr`
   }
 `;
 
-const Status = ["Open", "Close"];
 const dummy = () => {};
 const Issuetr = (props) => {
   return (
     <IssueTable onClick={props.openEdit}>
       <td>
         <CheckBox
-          id={props.val.id}
+          number={props.val.number}
           onClick={props.checkedbox}
           checked={props.checked}
           onChange={dummy}
         />
       </td>
       <td>
-        <a href={props.val.url}>{props.val.title}</a>
+        <a href={props.val.html_url}>{props.val.title}</a>
       </td>
       <td>{props.val.state}</td>
       <td>{props.val.ctuser}</td>

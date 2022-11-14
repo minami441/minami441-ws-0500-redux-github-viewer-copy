@@ -2,22 +2,6 @@ import { createStore } from "redux";
 import user from "./User.js";
 import axios from "axios";
 
-function getDate() {
-  const date = new Date();
-  const YYYY = date.getFullYear();
-  var MM = date.getMonth() + 1;
-  var DD = date.getDate();
-
-  if (MM < 10) {
-    MM = "0" + MM;
-  }
-  if (DD < 10) {
-    DD = "0" + DD;
-  }
-
-  return MM + "-" + DD + "-" + YYYY;
-}
-
 const ISSUE_ACTION = {
   add: "addIssue",
   edit: "editIssue",
@@ -30,12 +14,28 @@ const reducer = (state = initialData, action) => {
   const newState = { ...state };
   switch (action.type) {
     case ISSUE_ACTION["add"]:
-      //const index = ++newState.index;
       const { title, description } = action.payload || {};
       axios({
         method: "POST",
         url: "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues",
         data: { title: title, body: description },
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+        },
+      })
+        .then((res) => {
+          return res.data; // レスポンスデータ
+        })
+        .catch((error) => {
+          console.log("error: " + error);
+        });
+      return newState;
+    case ISSUE_ACTION["edit"]:
+      const { number, textEdit, descriptionEdit, statusEdit } = action.payload;
+      axios({
+        method: "PATCH",
+        url: `https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues/${number}`,
+        data: { title: textEdit, body: descriptionEdit, state: statusEdit },
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
         },
@@ -51,15 +51,24 @@ const reducer = (state = initialData, action) => {
           console.log("error: " + error);
         });
       return newState;
-    case ISSUE_ACTION["edit"]:
-      const { id, textEdit, descriptionEdit, statusEdit } = action.payload;
-      newState.data[id].title = textEdit;
-      newState.data[id].description = descriptionEdit;
-      newState.data[id].status = statusEdit;
-      return newState;
     case ISSUE_ACTION["delete"]:
-      const delete_id = action.payload;
-      delete_id.forEach((e) => delete newState.data[e]);
+      const delete_num = action.payload;
+      delete_num.forEach((number) =>
+        axios({
+          method: "PATCH",
+          url: `https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues/${number}`,
+          data: { state: "close" },
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+          },
+        })
+          .then((res) => {
+            console.log(res.data); // レスポンスデータ
+          })
+          .catch((error) => {
+            console.log("error: " + error);
+          })
+      );
       return newState;
     default:
       return state;
