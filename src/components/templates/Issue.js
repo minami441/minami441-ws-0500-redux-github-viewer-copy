@@ -119,7 +119,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       setMaster(response.data);
     });
   }, []);
-
+  console.log(list);
   useEffect(() => {
     const tmp = master.filter((value) => value.title.includes(filTxt));
     setList(tmp);
@@ -130,8 +130,15 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   };
 
   const delete_list = () => {
-    deleteIssue(check);
-    setCheck([]);
+    const checkSaveFlg = window.confirm("削除しますか？");
+
+    if (checkSaveFlg) {
+      deleteIssue(check);
+      setCheck([]);
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const onSubmit = () => {
@@ -160,7 +167,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       return;
     }
     editIssue({
-      id: vals.id,
+      number: vals.number,
       textEdit: textEdit,
       descriptionEdit: descriptionEdit,
       statusEdit: statusEdit,
@@ -173,8 +180,8 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
     setIsOpenEdit(true);
     setVal(val);
     setTextEdit(val.title);
-    setDescriptionEdit(val.description);
-    setStatusEdit(val.status);
+    setDescriptionEdit(val.body);
+    setStatusEdit(val.state);
   };
 
   const closeModal = () => {
@@ -191,10 +198,10 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
 
   const checkedBox = (e) => {
     e.stopPropagation();
-    const { id, checked } = e.target;
-    setCheck([...check, id]);
+    const { number, checked } = e.target;
+    setCheck([...check, number]);
     if (!checked) {
-      setCheck(check.filter((item) => item !== id));
+      setCheck(check.filter((item) => item !== number));
     }
   };
 
@@ -203,7 +210,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       setCheck([]);
     } else {
       const tmp = list.map(function (val) {
-        return val.id.toString();
+        return val.number.toString();
       });
       setCheck(tmp);
     }
@@ -296,14 +303,14 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
                   />
                   <TextareaBlock
                     label="説明"
-                    default={vals.description}
+                    default={vals.body}
                     onChange={(e) => setDescriptionEdit(e.target.value)}
                     placeholder="説明を入力してください"
                   />
                   <StatusBlock
                     label="ステータス"
                     onChange={(e) => setStatusEdit(e.target.value)}
-                    default={vals.status}
+                    default={vals.state}
                     options={statusOptions}
                   />
                 </ModalContents>
@@ -323,7 +330,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
                   val={val}
                   openEdit={() => openEdit(val)}
                   checkedBox={checkedBox}
-                  checked={check.includes(val.id.toString())}
+                  checked={check.includes(val.number.toString())}
                 />
               ))}
               {!list[0] && (
