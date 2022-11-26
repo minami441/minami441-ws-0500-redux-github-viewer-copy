@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import user from "./User.js";
 import axios from "axios";
-
+import { NotificationManager } from "react-notifications";
 const ISSUE_ACTION = {
   add: "addIssue",
   edit: "editIssue",
@@ -23,7 +23,7 @@ const reducer = async (state, action) => {
         },
       }).then((response) => {
         // handle succes
-        console.log("response_success");
+        NotificationManager.success("成功しました", "Success!", 2000);
       });
       console.log("after_axios");
       break;
