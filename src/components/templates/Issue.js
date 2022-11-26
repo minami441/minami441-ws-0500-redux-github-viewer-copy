@@ -112,14 +112,16 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   const [master, setMaster] = React.useState([]);
 
   useEffect(() => {
+    console.log("useeffect_issue");
+    console.log(issue);
     const url =
       "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
     axios.get(url).then(function (response) {
       setList(response.data);
       setMaster(response.data);
     });
-  }, []);
-  console.log(list);
+  }, [issue]);
+
   useEffect(() => {
     const tmp = master.filter((value) => value.title.includes(filTxt));
     setList(tmp);
@@ -150,7 +152,9 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       setError({ message: "説明" });
       return;
     }
+    console.log("before_addissue");
     addIssue({ title: text, description: description });
+    console.log("after_addissue");
     setError("");
     setText("");
     setDescription("");
