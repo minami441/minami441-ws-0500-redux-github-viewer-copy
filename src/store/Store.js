@@ -8,70 +8,54 @@ const ISSUE_ACTION = {
   delete: "deleteIssue",
 };
 
-let initialData = {};
-
-const reducer = (state = initialData, action) => {
-  const newState = { ...state };
+const url =
+  "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
+const reducer = async (state, action) => {
   switch (action.type) {
     case ISSUE_ACTION["add"]:
       const { title, description } = action.payload || {};
-      axios({
+      await axios({
         method: "POST",
-        url: "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues",
+        url: url,
         data: { title: title, body: description },
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
         },
-      })
-        .then((res) => {
-          return res.data; // レスポンスデータ
-        })
-        .catch((error) => {
-          console.log("error: " + error);
-        });
-      return newState;
+      }).then((response) => {
+        // handle succes
+        console.log("response_success");
+      });
+      console.log("after_axios");
+      break;
     case ISSUE_ACTION["edit"]:
       const { number, textEdit, descriptionEdit, statusEdit } = action.payload;
-      axios({
+      await axios({
         method: "PATCH",
-        url: `https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues/${number}`,
+        url: `${url}/${number}`,
         data: { title: textEdit, body: descriptionEdit, state: statusEdit },
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
         },
-      })
-        .then((res) => {
-          console.log(res.status); // ステータスコード
-          console.log(res.data); // レスポンスデータ
-          console.log(res.statusText); // ステータスメッセージ
-          console.log(res.headers); // レスポンスヘッダー
-          console.log(res.config); // 設定
-        })
-        .catch((error) => {
-          console.log("error: " + error);
-        });
-      return newState;
+      }).then((response) => {
+        // handle succes
+        return;
+      });
+      break;
     case ISSUE_ACTION["delete"]:
       const delete_num = action.payload;
       delete_num.forEach((number) =>
         axios({
           method: "PATCH",
-          url: `https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues/${number}`,
+          url: `${url}/${number}`,
           data: { state: "close" },
           headers: {
             Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
           },
         })
-          .then((res) => {
-            console.log(res.data); // レスポンスデータ
-          })
-          .catch((error) => {
-            console.log("error: " + error);
-          })
       );
-      return newState;
+      return;
     default:
-      return state;
+      return;
   }
 };
 
