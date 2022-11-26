@@ -24,9 +24,6 @@ redux のチュートリアル用に作成(個人学習用)
 
 https://minami441.github.io/minami441-ws-0500-redux-github-viewer
 
-react-notifications
-https://dev.to/adyasha8105/react-notifications-33do
-
 ## 使用したライブラリなど
 
 - react
@@ -35,7 +32,7 @@ https://dev.to/adyasha8105/react-notifications-33do
 - styled-components
 - React Router v6
 - eslint+prettie
-- react-notifications
+- react-notifications(https://dev.to/adyasha8105/react-notifications-33do)
 
 ## ディレクトリ構成
 

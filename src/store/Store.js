@@ -21,10 +21,14 @@ const reducer = async (state, action) => {
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
         },
-      }).then((response) => {
-        // handle succes
-        NotificationManager.success("成功しました", "Success!", 2000);
-      });
+      })
+        .then((response) => {
+          // handle succes
+          NotificationManager.success("成功しました", "Success!", 2000);
+        })
+        .catch((err) => {
+          NotificationManager.error("失敗しました", "error!", 2000);
+        });
       console.log("after_axios");
       break;
     case ISSUE_ACTION["edit"]:
