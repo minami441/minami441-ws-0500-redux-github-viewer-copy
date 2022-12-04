@@ -10,6 +10,10 @@ const IssueTable = styled.tr`
 `;
 
 const dummy = () => {};
+function link(e, link) {
+  e.stopPropagation();
+  document.location.href = link;
+}
 const Issuetr = (props) => {
   return (
     <IssueTable onClick={props.openEdit}>
@@ -22,7 +26,9 @@ const Issuetr = (props) => {
         />
       </td>
       <td>
-        <a href={props.val.html_url}>{props.val.title}</a>
+        <a onClick={(e) => link(e, props.val.html_url.toString())}>
+          {props.val.title}
+        </a>
       </td>
       <td>{props.val.state}</td>
       <td>{props.val.ctuser}</td>
