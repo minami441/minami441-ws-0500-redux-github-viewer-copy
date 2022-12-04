@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import CheckBox from "../atoms/CheckBox";
+import { format } from "date-fns";
 
 const IssueTable = styled.tr`
   cursor: pointer;
@@ -32,8 +33,8 @@ const Issuetr = (props) => {
       </td>
       <td>{props.val.state}</td>
       <td>{props.val.ctuser}</td>
-      <td>{props.val.created_at}</td>
-      <td>{props.val.updated_at}</td>
+      <td>{format(new Date(props.val.created_at), "MM-dd-yyyy")}</td>
+      <td>{format(new Date(props.val.updated_at), "MM-dd-yyyy")}</td>
     </IssueTable>
   );
 };
