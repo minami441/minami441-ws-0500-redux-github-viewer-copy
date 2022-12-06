@@ -74,36 +74,42 @@ const GlobalStyle = createGlobalStyle`
   @media (max-width: 576px) {
     .ReactModal__Content {
       width: 100%;
+      height: 100vh;
+      margin: 0px;
       right: 0px !important;
       left: 0px !important;
+      top: 0px !important;
     }
   }
   .ReactModal__Content {
     margin: auto;
     width: 60%;
   }
-  @keyframes show {
-    0% {
-      opacity: 0;
-    }
-    100% {
-     opacity: 1;
-    }
-  }
+
+  .ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
 `;
 
-const customStyles = {
+let customStyles = {
   content: {
     position: "absolute",
-    inset: "40px",
+    inset: "0px",
     border: "1px solid rgb(204, 204, 204)",
     background: "rgb(255, 255, 255)",
     overflow: "auto",
     borderradius: "4px",
     outline: "none",
     padding: "20px",
-    opacity: 1,
-    animation: `show 0.5s`,
   },
 };
 

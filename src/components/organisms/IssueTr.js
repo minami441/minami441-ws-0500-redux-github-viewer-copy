@@ -32,7 +32,7 @@ const Issuetr = (props) => {
         </a>
       </td>
       <td>{props.val.state}</td>
-      <td>{props.val.ctuser}</td>
+      <td>{props.val.user.login}</td>
       <td>{format(new Date(props.val.created_at), "MM-dd-yyyy")}</td>
       <td>{format(new Date(props.val.updated_at), "MM-dd-yyyy")}</td>
     </IssueTable>
