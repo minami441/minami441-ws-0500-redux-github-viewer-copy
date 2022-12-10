@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { connect } from "react-redux";
-import user from "../store/User";
+import axios from "axios";
+import React, { useEffect } from "react";
 
 const Profiler = styled.div`
   padding: 16px;
@@ -41,43 +41,54 @@ const ProfileText = styled.div`
   width: 50%;
 `;
 
-const ProfileUser = styled.div``;
+const ProfileBlock = styled.div``;
 
-const ProfileMail = styled.div``;
-
-function Profile(user) {
-  const List = Object.values(user)[0];
+function Profile() {
   return (
-    <Profiler store={user}>
+    <Profiler>
       <ProfileTitle>Profile</ProfileTitle>
       <ProfileContents>
         <ProfileImage>
           <ProfileLeft>
             <ProfileLabel>プロフィール</ProfileLabel>
             <Profilep>
-              <img
-                src="https://avatars1.githubusercontent.com/u/25723193?s=60&amp;u=5f2d871352830fdf1a79ee285e0712044105ca91&amp;v=4"
-                alt="プロフィール"
-              />
+              <img src={user.avatar_url} alt="プロフィール" />
             </Profilep>
           </ProfileLeft>
         </ProfileImage>
         <ProfileText>
-          <ProfileUser>
+          <ProfileBlock>
             <ProfileLabel>ユーザー名</ProfileLabel>
-            <Profilep>{List.name}</Profilep>
-          </ProfileUser>
-          <ProfileMail>
-            <ProfileLabel>メールアドレス</ProfileLabel>
-            <Profilep>{List.mail}</Profilep>
-          </ProfileMail>
+            <Profilep>{user.name}</Profilep>
+          </ProfileBlock>
+          <ProfileBlock>
+            <ProfileLabel>アカウントURL</ProfileLabel>
+            <Profilep>
+              <a
+                href={`https://github.com/${user.login}`}
+              >{`https://github.com/${user.login}`}</a>
+            </Profilep>
+          </ProfileBlock>
+          <ProfileBlock>
+            <ProfileLabel>フォロー数</ProfileLabel>
+            <Profilep>{user.following}</Profilep>
+          </ProfileBlock>
+          <ProfileBlock>
+            <ProfileLabel>フォロワー数</ProfileLabel>
+            <Profilep>{user.followers}</Profilep>
+          </ProfileBlock>
+          <ProfileBlock>
+            <ProfileLabel>パブリックレポジトリ数</ProfileLabel>
+            <Profilep>{user.public_repos}</Profilep>
+          </ProfileBlock>
+          <ProfileBlock>
+            <ProfileLabel>プライベートレポジトリ数</ProfileLabel>
+            <Profilep>{user.private_repos}</Profilep>
+          </ProfileBlock>
         </ProfileText>
       </ProfileContents>
     </Profiler>
   );
 }
-const mapStateToProps = (state) => {
-  return { user: user };
-};
 
-export default connect(mapStateToProps)(Profile);
+export default Profile;

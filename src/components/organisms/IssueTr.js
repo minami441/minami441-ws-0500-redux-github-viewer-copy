@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import CheckBox from "../atoms/CheckBox";
+import { format } from "date-fns";
 
 const IssueTable = styled.tr`
   cursor: pointer;
@@ -9,24 +10,31 @@ const IssueTable = styled.tr`
   }
 `;
 
-const Status = ["Open", "Close"];
 const dummy = () => {};
+function link(e, link) {
+  e.stopPropagation();
+  document.location.href = link;
+}
 const Issuetr = (props) => {
   return (
     <IssueTable onClick={props.openEdit}>
       <td>
         <CheckBox
-          id={props.val.id}
+          number={props.val.number}
           onClick={props.checkedbox}
           checked={props.checked}
           onChange={dummy}
         />
       </td>
-      <td>{props.val.title}</td>
-      <td>{Status[props.val.status]}</td>
-      <td>{props.val.ctuser}</td>
-      <td>{props.val.ctdate}</td>
-      <td>{props.val.update}</td>
+      <td>
+        <a onClick={(e) => link(e, props.val.html_url.toString())}>
+          {props.val.title}
+        </a>
+      </td>
+      <td>{props.val.state}</td>
+      <td>{props.val.user.login}</td>
+      <td>{format(new Date(props.val.created_at), "MM-dd-yyyy")}</td>
+      <td>{format(new Date(props.val.updated_at), "MM-dd-yyyy")}</td>
     </IssueTable>
   );
 };

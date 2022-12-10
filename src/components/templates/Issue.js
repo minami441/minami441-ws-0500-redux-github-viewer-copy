@@ -1,7 +1,9 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { connect } from "react-redux";
-import React from "react";
+import { createStore } from "redux";
+import axios from "axios";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
+import { NotificationManager } from "react-notifications";
 import Buttons from "../atoms/Button.js";
 import StatusBlock from "../molecules/StatusBlock";
 import InHeaders from "../organisms/InHeader";
@@ -72,20 +74,36 @@ const GlobalStyle = createGlobalStyle`
   @media (max-width: 576px) {
     .ReactModal__Content {
       width: 100%;
+      height: 100vh;
+      margin: 0px;
       right: 0px !important;
       left: 0px !important;
+      top: 0px !important;
     }
   }
   .ReactModal__Content {
     margin: auto;
     width: 60%;
   }
+
+  .ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
 `;
 
-const customStyles = {
+let customStyles = {
   content: {
     position: "absolute",
-    inset: "40px",
+    inset: "0px",
     border: "1px solid rgb(204, 204, 204)",
     background: "rgb(255, 255, 255)",
     overflow: "auto",
@@ -95,7 +113,10 @@ const customStyles = {
   },
 };
 
-function Issue({ issue, addIssue, editIssue, deleteIssue }) {
+const url =
+  "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
+
+function Issue() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -107,20 +128,113 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   const [error, setError] = React.useState("");
   const [check, setCheck] = React.useState([]);
   const [filTxt, setFilTxt] = React.useState();
+  const [list, setList] = React.useState([]);
+  const [master, setMaster] = React.useState([]);
 
-  let list = Object.values(issue);
-
-  if (filTxt) {
-    list = list.filter((value) => value.title.includes(filTxt));
+  function getList() {
+    axios({
+      method: "GET",
+      url: url,
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+      },
+    }).then((response) => {
+      // handle succes
+      setList(response.data);
+      setMaster(response.data);
+    });
   }
+
+  const reducer = (state, action) => {
+    const ISSUE_ACTION = {
+      add: "addIssue",
+      edit: "editIssue",
+      delete: "deleteIssue",
+    };
+    switch (action.type) {
+      case ISSUE_ACTION["add"]:
+        const { title, description } = action.payload || {};
+        axios({
+          method: "POST",
+          url: url,
+          data: { title: title, body: description },
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+          },
+        })
+          .then(() => {
+            // handle succes
+            getList();
+            NotificationManager.success("成功しました", "Success!", 2000);
+          })
+          .catch(() => {
+            NotificationManager.error("失敗しました", "error!", 2000);
+          });
+        return;
+      case ISSUE_ACTION["edit"]:
+        const { number, textEdit, descriptionEdit, statusEdit } =
+          action.payload;
+        axios({
+          method: "PATCH",
+          url: `${url}/${number}`,
+          data: { title: textEdit, body: descriptionEdit, state: statusEdit },
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+          },
+        })
+          .then(() => {
+            // handle succes
+            getList();
+            NotificationManager.success("成功しました", "Success!", 2000);
+          })
+          .catch(() => {
+            NotificationManager.error("失敗しました", "error!", 2000);
+          });
+        return;
+      case ISSUE_ACTION["delete"]:
+        const delete_num = action.payload;
+        delete_num.forEach((number) =>
+          axios({
+            method: "PATCH",
+            url: `${url}/${number}`,
+            data: { state: "close" },
+            headers: {
+              Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+            },
+          })
+        );
+        return;
+      default:
+        return;
+    }
+  };
+
+  const store = createStore(reducer);
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  useEffect(() => {
+    const tmp = master.filter((value) => value.title.includes(filTxt));
+    setList(tmp);
+  }, [filTxt]);
 
   const filter = (filter) => {
     setFilTxt(filter);
   };
 
   const delete_list = () => {
-    deleteIssue(check);
-    setCheck([]);
+    const checkSaveFlg = window.confirm("削除しますか？");
+
+    if (checkSaveFlg) {
+      const list = check;
+      store.dispatch({ type: "deleteIssue", payload: list });
+      setCheck([]);
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const onSubmit = () => {
@@ -132,7 +246,8 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       setError({ message: "説明" });
       return;
     }
-    addIssue({ title: text, description: description });
+    const list = { title: text, description: description };
+    store.dispatch({ type: "addIssue", payload: list });
     setError("");
     setText("");
     setDescription("");
@@ -148,12 +263,13 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       setError({ message: "説明" });
       return;
     }
-    editIssue({
-      id: vals.id,
+    const list = {
+      number: vals.number,
       textEdit: textEdit,
       descriptionEdit: descriptionEdit,
       statusEdit: statusEdit,
-    });
+    };
+    store.dispatch({ type: "editIssue", payload: list });
     setError("");
     setIsOpenEdit(false);
   };
@@ -162,8 +278,8 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
     setIsOpenEdit(true);
     setVal(val);
     setTextEdit(val.title);
-    setDescriptionEdit(val.description);
-    setStatusEdit(val.status);
+    setDescriptionEdit(val.body);
+    setStatusEdit(val.state);
   };
 
   const closeModal = () => {
@@ -180,10 +296,10 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
 
   const checkedBox = (e) => {
     e.stopPropagation();
-    const { id, checked } = e.target;
-    setCheck([...check, id]);
+    const { number, checked } = e.target;
+    setCheck([...check, number]);
     if (!checked) {
-      setCheck(check.filter((item) => item !== id));
+      setCheck(check.filter((item) => item !== number));
     }
   };
 
@@ -192,7 +308,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
       setCheck([]);
     } else {
       const tmp = list.map(function (val) {
-        return val.id.toString();
+        return val.number.toString();
       });
       setCheck(tmp);
     }
@@ -200,12 +316,10 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
 
   const statusOptions = [
     {
-      label: "Open",
-      value: "0",
+      label: "open",
     },
     {
-      label: "Close",
-      value: "1",
+      label: "close",
     },
   ];
 
@@ -285,14 +399,14 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
                   />
                   <TextareaBlock
                     label="説明"
-                    default={vals.description}
+                    default={vals.body}
                     onChange={(e) => setDescriptionEdit(e.target.value)}
                     placeholder="説明を入力してください"
                   />
                   <StatusBlock
                     label="ステータス"
                     onChange={(e) => setStatusEdit(e.target.value)}
-                    default={vals.status}
+                    default={vals.state}
                     options={statusOptions}
                   />
                 </ModalContents>
@@ -312,7 +426,7 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
                   val={val}
                   openEdit={() => openEdit(val)}
                   checkedBox={checkedBox}
-                  checked={check.includes(val.id.toString())}
+                  checked={check.includes(val.number.toString())}
                 />
               ))}
               {!list[0] && (
@@ -328,16 +442,4 @@ function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return { issue: state.data };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addIssue: (list) => dispatch({ type: "addIssue", payload: list }),
-    editIssue: (edittxt) => dispatch({ type: "editIssue", payload: edittxt }),
-    deleteIssue: (list) => dispatch({ type: "deleteIssue", payload: list }),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Issue);
+export default Issue;

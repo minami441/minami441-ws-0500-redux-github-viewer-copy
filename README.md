@@ -32,6 +32,7 @@ https://minami441.github.io/minami441-ws-0500-redux-github-viewer
 - styled-components
 - React Router v6
 - eslint+prettie
+- react-notifications(https://dev.to/adyasha8105/react-notifications-33do)
 
 ## ディレクトリ構成
 

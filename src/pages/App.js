@@ -5,6 +5,8 @@ import Home from "../pages/Home";
 import Issue from "../components/templates/Issue";
 import Profile from "../pages/Profile";
 import PullRequest from "../pages/PullRequest";
+import "react-notifications/lib/notifications.css";
+import { NotificationContainer } from "react-notifications";
 
 const Header = styled.div`
   display: flex;
@@ -149,6 +151,7 @@ function App() {
           </Routes>
         </Main>
       </BrowserRouter>
+      <NotificationContainer />
     </div>
   );
 }
