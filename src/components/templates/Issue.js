@@ -1,9 +1,9 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { createStore } from "redux";
+import { connect } from "react-redux";
 import axios from "axios";
 import React, { useEffect } from "react";
 import Modal from "react-modal";
-import { NotificationManager } from "react-notifications";
+
 import Buttons from "../atoms/Button.js";
 import StatusBlock from "../molecules/StatusBlock";
 import InHeaders from "../organisms/InHeader";
@@ -116,7 +116,7 @@ let customStyles = {
 const url =
   "https://api.github.com/repos/minami441/minami441-ws-0500-redux-github-viewer/issues";
 
-function Issue() {
+function Issue({ issue, addIssue, editIssue, deleteIssue }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpenEdit, setIsOpenEdit] = React.useState(false);
   const [text, setText] = React.useState("");
@@ -145,75 +145,7 @@ function Issue() {
     });
   }
 
-  const reducer = (state, action) => {
-    const ISSUE_ACTION = {
-      add: "addIssue",
-      edit: "editIssue",
-      delete: "deleteIssue",
-    };
-    switch (action.type) {
-      case ISSUE_ACTION["add"]:
-        const { title, description } = action.payload || {};
-        axios({
-          method: "POST",
-          url: url,
-          data: { title: title, body: description },
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
-          },
-        })
-          .then(() => {
-            // handle succes
-            getList();
-            NotificationManager.success("成功しました", "Success!", 2000);
-          })
-          .catch(() => {
-            NotificationManager.error("失敗しました", "error!", 2000);
-          });
-        return;
-      case ISSUE_ACTION["edit"]:
-        const { number, textEdit, descriptionEdit, statusEdit } =
-          action.payload;
-        axios({
-          method: "PATCH",
-          url: `${url}/${number}`,
-          data: { title: textEdit, body: descriptionEdit, state: statusEdit },
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
-          },
-        })
-          .then(() => {
-            // handle succes
-            getList();
-            NotificationManager.success("成功しました", "Success!", 2000);
-          })
-          .catch(() => {
-            NotificationManager.error("失敗しました", "error!", 2000);
-          });
-        return;
-      case ISSUE_ACTION["delete"]:
-        const delete_num = action.payload;
-        delete_num.forEach((number) =>
-          axios({
-            method: "PATCH",
-            url: `${url}/${number}`,
-            data: { state: "close" },
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
-            },
-          })
-        );
-        return;
-      default:
-        return;
-    }
-  };
-
-  const store = createStore(reducer);
-
-  useEffect(() => {
-    getList();
-  }, []);
+  getList();
 
   useEffect(() => {
     const tmp = master.filter((value) => value.title.includes(filTxt));
@@ -229,7 +161,7 @@ function Issue() {
 
     if (checkSaveFlg) {
       const list = check;
-      store.dispatch({ type: "deleteIssue", payload: list });
+      deleteIssue({ type: "editIssue", payload: list });
       setCheck([]);
       return true;
     } else {
@@ -246,8 +178,7 @@ function Issue() {
       setError({ message: "説明" });
       return;
     }
-    const list = { title: text, description: description };
-    store.dispatch({ type: "addIssue", payload: list });
+    addIssue({ title: text, description: description });
     setError("");
     setText("");
     setDescription("");
@@ -269,7 +200,8 @@ function Issue() {
       descriptionEdit: descriptionEdit,
       statusEdit: statusEdit,
     };
-    store.dispatch({ type: "editIssue", payload: list });
+
+    editIssue({ type: "editIssue", payload: list });
     setError("");
     setIsOpenEdit(false);
   };
@@ -442,4 +374,16 @@ function Issue() {
   );
 }
 
-export default Issue;
+const mapStateToProps = (state) => {
+  return { issue: state };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addIssue: (list) => dispatch({ type: "addIssue", payload: list }),
+    editIssue: (edittxt) => dispatch({ type: "editIssue", payload: edittxt }),
+    deleteIssue: (list) => dispatch({ type: "deleteIssue", payload: list }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Issue);

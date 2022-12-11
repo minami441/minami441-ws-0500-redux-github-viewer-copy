@@ -42,8 +42,25 @@ const ProfileText = styled.div`
 `;
 
 const ProfileBlock = styled.div``;
+const url = "https://api.github.com/user";
 
 function Profile() {
+  const [user, setUser] = React.useState([]);
+  function getProfile() {
+    axios({
+      method: "GET",
+      url: url,
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_GITAUTH}`,
+      },
+    }).then((response) => {
+      // handle succes
+      setUser(response.data);
+    });
+  }
+  useEffect(() => {
+    getProfile();
+  }, []);
   return (
     <Profiler>
       <ProfileTitle>Profile</ProfileTitle>
